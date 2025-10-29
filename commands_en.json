@@ -1,0 +1,940 @@
+[
+  {
+    "name": "alias",
+    "description": "Create shortcuts - custom abbreviations for long commands.",
+    "examples": [
+      {
+        "cmd": "alias ll='ls -la'",
+        "desc": "Create shortcut"
+      },
+      {
+        "cmd": "alias ..='cd ..'",
+        "desc": "Quick navigation"
+      },
+      {
+        "cmd": "alias grep='grep --color=auto'",
+        "desc": "Colorize grep"
+      },
+      {
+        "cmd": "alias update='sudo apt update && sudo apt upgrade'",
+        "desc": "Combo command"
+      }
+    ],
+    "protip": "Add to ~/.bashrc to make aliases permanent!"
+  },
+  {
+    "name": "awk",
+    "description": "Text processing - extracts and manipulates columns of data.",
+    "examples": [
+      {
+        "cmd": "awk '{print $1}' file.txt",
+        "desc": "Print first column"
+      },
+      {
+        "cmd": "awk -F: '{print $1}' /etc/passwd",
+        "desc": "Extract usernames"
+      },
+      {
+        "cmd": "awk 'NR>1 {sum+=$3} END {print sum}' data.txt",
+        "desc": "Sum column 3"
+      }
+    ],
+    "protip": "Use '-F:' to change delimiter: 'awk -F: '{print $1}' /etc/passwd'"
+  },
+  {
+    "name": "cat",
+    "description": "Concatenate and display files - shows file contents in terminal.",
+    "examples": [
+      {
+        "cmd": "cat file.txt",
+        "desc": "Display file contents"
+      },
+      {
+        "cmd": "cat file1.txt file2.txt > combined.txt",
+        "desc": "Merge files"
+      },
+      {
+        "cmd": "cat -n file.txt",
+        "desc": "Show with line numbers"
+      },
+      {
+        "cmd": "cat file.txt | grep error",
+        "desc": "View and search"
+      }
+    ],
+    "protip": "Use 'cat file1.txt file2.txt > merged.txt' to combine files!"
+  },
+  {
+    "name": "cd",
+    "description": "Change directory - move between folders in your terminal.",
+    "examples": [
+      {
+        "cmd": "cd ~/Documents",
+        "desc": "Go to Documents folder"
+      },
+      {
+        "cmd": "cd ..",
+        "desc": "Go up one level"
+      },
+      {
+        "cmd": "cd -",
+        "desc": "Jump back to previous directory"
+      },
+      {
+        "cmd": "cd /var/log",
+        "desc": "Go to absolute path"
+      },
+      {
+        "cmd": "cd ../../",
+        "desc": "Go up two levels"
+      }
+    ],
+    "protip": "Just 'cd' with no path takes you home. Use 'cd -' to jump back to previous folder!"
+  },
+  {
+    "name": "chmod",
+    "description": "Change file permissions - controls who can read/write/execute files.",
+    "examples": [
+      {
+        "cmd": "chmod 755 script.sh",
+        "desc": "Make executable for all"
+      },
+      {
+        "cmd": "chmod u+x file.sh",
+        "desc": "Add execute for owner"
+      },
+      {
+        "cmd": "chmod -R 644 *.txt",
+        "desc": "Set permissions recursively"
+      },
+      {
+        "cmd": "chmod go-w file.txt",
+        "desc": "Remove write for group/others"
+      }
+    ],
+    "protip": "755 = rwxr-xr-x. Use 'chmod +x script.sh' for executables!"
+  },
+  {
+    "name": "chown",
+    "description": "Change file owner - transfers ownership of files.",
+    "examples": [
+      {
+        "cmd": "sudo chown user:group file.txt",
+        "desc": "Change owner and group"
+      },
+      {
+        "cmd": "sudo chown -R www-data:www-data /var/www",
+        "desc": "Web server ownership"
+      },
+      {
+        "cmd": "sudo chown user file.txt",
+        "desc": "Change only owner"
+      }
+    ],
+    "protip": "Use 'chown -R user:group folder/' to change entire directories!"
+  },
+  {
+    "name": "cp",
+    "description": "Copy files and directories - creates duplicates while keeping originals.",
+    "examples": [
+      {
+        "cmd": "cp file.txt backup.txt",
+        "desc": "Copy a file"
+      },
+      {
+        "cmd": "cp -r folder/ backup/",
+        "desc": "Copy entire folder"
+      },
+      {
+        "cmd": "cp -p file.conf file.bak",
+        "desc": "Preserve timestamps/permissions"
+      },
+      {
+        "cmd": "cp *.jpg ~/Pictures/",
+        "desc": "Copy all images"
+      }
+    ],
+    "protip": "Use 'cp -u' to only copy newer files - saves time on big backups!"
+  },
+  {
+    "name": "curl",
+    "description": "Transfer data from servers - download files and test APIs.",
+    "examples": [
+      {
+        "cmd": "curl https://example.com",
+        "desc": "Fetch webpage"
+      },
+      {
+        "cmd": "curl -O https://site.com/file.zip",
+        "desc": "Download file"
+      },
+      {
+        "cmd": "curl -X POST -d 'data' api.com",
+        "desc": "Send POST request"
+      },
+      {
+        "cmd": "curl -I website.com",
+        "desc": "Show headers only"
+      }
+    ],
+    "protip": "Use 'curl -I' to show just headers. 'curl -L' follows redirects!"
+  },
+  {
+    "name": "df",
+    "description": "Disk free - shows available disk space.",
+    "examples": [
+      {
+        "cmd": "df -h",
+        "desc": "Show space in GB/MB"
+      },
+      {
+        "cmd": "df -h /home",
+        "desc": "Check specific mount"
+      },
+      {
+        "cmd": "df -i",
+        "desc": "Show inode usage"
+      },
+      {
+        "cmd": "df -h | grep -v tmpfs",
+        "desc": "Hide temp filesystems"
+      }
+    ],
+    "protip": "Use 'df -h | grep -v tmpfs' to hide temporary filesystems!"
+  },
+  {
+    "name": "du",
+    "description": "Disk usage - shows how much space files/folders use.",
+    "examples": [
+      {
+        "cmd": "du -sh folder/",
+        "desc": "Show folder size"
+      },
+      {
+        "cmd": "du -h --max-depth=1",
+        "desc": "Show subfolders only"
+      },
+      {
+        "cmd": "du -sh * | sort -h",
+        "desc": "Sort by size"
+      },
+      {
+        "cmd": "du -ha /var/log",
+        "desc": "Show all files"
+      }
+    ],
+    "protip": "Use 'du -sh * | sort -h' to show largest folders first!"
+  },
+  {
+    "name": "echo",
+    "description": "Display text - prints text to screen or files.",
+    "examples": [
+      {
+        "cmd": "echo 'Hello World'",
+        "desc": "Print text"
+      },
+      {
+        "cmd": "echo $PATH",
+        "desc": "Show environment variable"
+      },
+      {
+        "cmd": "echo 'text' > file.txt",
+        "desc": "Write to file"
+      },
+      {
+        "cmd": "echo 'more' >> file.txt",
+        "desc": "Append to file"
+      }
+    ],
+    "protip": "Use 'echo -e' for newlines: 'echo -e \"Line1\\nLine2\"'"
+  },
+  {
+    "name": "find",
+    "description": "Search for files and directories - finds files by name, size, date, etc.",
+    "examples": [
+      {
+        "cmd": "find . -name '*.txt'",
+        "desc": "Find all .txt files"
+      },
+      {
+        "cmd": "find /var/log -mtime -7",
+        "desc": "Files modified last 7 days"
+      },
+      {
+        "cmd": "find . -type f -size +10M",
+        "desc": "Files larger than 10MB"
+      },
+      {
+        "cmd": "find . -name '*.tmp' -delete",
+        "desc": "Find and delete"
+      }
+    ],
+    "protip": "Use 'find . -name \"*.tmp\" -delete' to find and delete in one command!"
+  },
+  {
+    "name": "git",
+    "description": "Version control system - tracks code changes and enables collaboration.",
+    "examples": [
+      {
+        "cmd": "git status",
+        "desc": "Check what changed"
+      },
+      {
+        "cmd": "git add .",
+        "desc": "Stage all changes"
+      },
+      {
+        "cmd": "git commit -m 'message'",
+        "desc": "Save changes"
+      },
+      {
+        "cmd": "git push origin main",
+        "desc": "Upload to remote"
+      },
+      {
+        "cmd": "git log --oneline",
+        "desc": "View history"
+      }
+    ],
+    "protip": "Use 'git stash' to save work-in-progress without committing!"
+  },
+  {
+    "name": "grep",
+    "description": "Search for text patterns - finds content in files super fast.",
+    "examples": [
+      {
+        "cmd": "grep 'error' logfile.txt",
+        "desc": "Search for 'error'"
+      },
+      {
+        "cmd": "grep -r 'TODO' .",
+        "desc": "Search all files recursively"
+      },
+      {
+        "cmd": "grep -i 'warning' *.log",
+        "desc": "Case-insensitive search"
+      },
+      {
+        "cmd": "ps aux | grep nginx",
+        "desc": "Search process list"
+      },
+      {
+        "cmd": "grep -n 'function' script.js",
+        "desc": "Show line numbers"
+      }
+    ],
+    "protip": "Use 'grep -r' to search entire folders, 'grep -v' to show non-matching lines!"
+  },
+  {
+    "name": "head",
+    "description": "Output first lines - shows beginning of files.",
+    "examples": [
+      {
+        "cmd": "head file.txt",
+        "desc": "Show first 10 lines"
+      },
+      {
+        "cmd": "head -n 20 file.txt",
+        "desc": "Show first 20 lines"
+      },
+      {
+        "cmd": "head -c 100 file.txt",
+        "desc": "Show first 100 bytes"
+      }
+    ],
+    "protip": "Pipe with commands: 'ls -l | head' shows first few items!"
+  },
+  {
+    "name": "history",
+    "description": "Command history - shows previously executed commands.",
+    "examples": [
+      {
+        "cmd": "history",
+        "desc": "Show recent commands"
+      },
+      {
+        "cmd": "history | grep git",
+        "desc": "Search history"
+      },
+      {
+        "cmd": "history -c",
+        "desc": "Clear history"
+      },
+      {
+        "cmd": "!42",
+        "desc": "Re-run command #42"
+      },
+      {
+        "cmd": "!!",
+        "desc": "Re-run last command"
+      }
+    ],
+    "protip": "Press Ctrl+R for interactive search! '!!' reruns last command!"
+  },
+  {
+    "name": "htop",
+    "description": "Interactive process viewer - prettier version of 'top' with colors.",
+    "examples": [
+      {
+        "cmd": "htop",
+        "desc": "Launch colorful monitor"
+      },
+      {
+        "cmd": "htop -u username",
+        "desc": "Show user's processes"
+      },
+      {
+        "cmd": "htop -p PID1,PID2",
+        "desc": "Monitor specific processes"
+      }
+    ],
+    "protip": "Press F6 to sort, F9 to kill, F5 for tree view!"
+  },
+  {
+    "name": "kill",
+    "description": "Terminate processes - stops running programs.",
+    "examples": [
+      {
+        "cmd": "kill PID",
+        "desc": "Ask process to stop (polite)"
+      },
+      {
+        "cmd": "kill -9 PID",
+        "desc": "Force kill (last resort)"
+      },
+      {
+        "cmd": "killall firefox",
+        "desc": "Kill by program name"
+      },
+      {
+        "cmd": "kill -SIGTERM PID",
+        "desc": "Same as regular kill"
+      }
+    ],
+    "protip": "Try normal kill first, use -9 only as last resort!"
+  },
+  {
+    "name": "less",
+    "description": "View files - displays text one page at a time.",
+    "examples": [
+      {
+        "cmd": "less file.txt",
+        "desc": "View file (space to scroll)"
+      },
+      {
+        "cmd": "less +F /var/log/syslog",
+        "desc": "Follow in real-time"
+      },
+      {
+        "cmd": "ps aux | less",
+        "desc": "Paginate output"
+      },
+      {
+        "cmd": "less -N file.txt",
+        "desc": "Show line numbers"
+      }
+    ],
+    "protip": "Press '/' to search, 'n' for next match, 'G' for end, 'g' for start!"
+  },
+  {
+    "name": "ln",
+    "description": "Create links - makes shortcuts to files or directories.",
+    "examples": [
+      {
+        "cmd": "ln -s /path/to/file shortcut",
+        "desc": "Create link"
+      },
+      {
+        "cmd": "ln -s /opt/app/config ~/.config/app",
+        "desc": "Link config"
+      },
+      {
+        "cmd": "ln file hardlink",
+        "desc": "Create hard link"
+      }
+    ],
+    "protip": "Always use 'ln -s' for symbolic links - they're more flexible!"
+  },
+  {
+    "name": "ls",
+    "description": "List directory contents - shows all files and folders in your current location.",
+    "examples": [
+      {
+        "cmd": "ls -la",
+        "desc": "Show ALL files including hidden ones (start with .)"
+      },
+      {
+        "cmd": "ls -lh",
+        "desc": "Human-readable sizes (1.5M instead of 1536000)"
+      },
+      {
+        "cmd": "ls -lt",
+        "desc": "Sort by time, newest first"
+      },
+      {
+        "cmd": "ls *.txt",
+        "desc": "Show only .txt files"
+      },
+      {
+        "cmd": "ls -R",
+        "desc": "Show subdirectories too"
+      }
+    ],
+    "protip": "Use 'ls -ltr' to see newest files at bottom - perfect for long directories!"
+  },
+  {
+    "name": "man",
+    "description": "Manual pages - built-in documentation for every command.",
+    "examples": [
+      {
+        "cmd": "man ls",
+        "desc": "Read ls documentation"
+      },
+      {
+        "cmd": "man -k search",
+        "desc": "Search all manuals"
+      },
+      {
+        "cmd": "man 5 passwd",
+        "desc": "Read file format docs"
+      },
+      {
+        "cmd": "man -f command",
+        "desc": "Short description"
+      }
+    ],
+    "protip": "Press '/' to search within a man page, 'q' to quit!"
+  },
+  {
+    "name": "mkdir",
+    "description": "Make directory - creates new folders to organize your files.",
+    "examples": [
+      {
+        "cmd": "mkdir myFolder",
+        "desc": "Create single folder"
+      },
+      {
+        "cmd": "mkdir -p project/src/components",
+        "desc": "Create nested folders"
+      },
+      {
+        "cmd": "mkdir {docs,src,tests}",
+        "desc": "Create multiple folders at once"
+      },
+      {
+        "cmd": "mkdir -m 755 public",
+        "desc": "Create with specific permissions"
+      }
+    ],
+    "protip": "Use 'mkdir -p path/to/folder' to create all parent directories at once!"
+  },
+  {
+    "name": "mv",
+    "description": "Move or rename files - relocates files or changes their names.",
+    "examples": [
+      {
+        "cmd": "mv old.txt new.txt",
+        "desc": "Rename a file"
+      },
+      {
+        "cmd": "mv file.txt ~/Documents/",
+        "desc": "Move to another folder"
+      },
+      {
+        "cmd": "mv *.pdf archive/",
+        "desc": "Move all PDFs"
+      },
+      {
+        "cmd": "mv -i file.txt ~/",
+        "desc": "Ask before overwriting"
+      }
+    ],
+    "protip": "Moving is instant on same disk - just updates directory entry!"
+  },
+  {
+    "name": "nano",
+    "description": "Simple text editor - beginner-friendly with shortcuts shown at bottom.",
+    "examples": [
+      {
+        "cmd": "nano file.txt",
+        "desc": "Edit file"
+      },
+      {
+        "cmd": "nano +10 file.txt",
+        "desc": "Jump to line 10"
+      },
+      {
+        "cmd": "nano -w file.txt",
+        "desc": "Disable line wrap"
+      }
+    ],
+    "protip": "Ctrl+O saves, Ctrl+X exits, Ctrl+W searches!"
+  },
+  {
+    "name": "ps",
+    "description": "Process status - snapshot of running processes.",
+    "examples": [
+      {
+        "cmd": "ps aux",
+        "desc": "Show all processes"
+      },
+      {
+        "cmd": "ps aux | grep nginx",
+        "desc": "Find specific process"
+      },
+      {
+        "cmd": "ps -ef",
+        "desc": "Alternative format"
+      },
+      {
+        "cmd": "ps -u username",
+        "desc": "User's processes"
+      },
+      {
+        "cmd": "ps -p PID",
+        "desc": "Specific process info"
+      }
+    ],
+    "protip": "Use 'ps aux --sort=-%mem' to find memory hogs!"
+  },
+  {
+    "name": "pwd",
+    "description": "Print working directory - shows where you are in the file system.",
+    "examples": [
+      {
+        "cmd": "pwd",
+        "desc": "Show current directory path"
+      },
+      {
+        "cmd": "pwd -P",
+        "desc": "Show physical path (resolves links)"
+      }
+    ],
+    "protip": "Run 'pwd' before dangerous commands to verify you're in the right place!"
+  },
+  {
+    "name": "rm",
+    "description": "Remove files or directories - permanently deletes files. No undo!",
+    "examples": [
+      {
+        "cmd": "rm file.txt",
+        "desc": "Delete a file"
+      },
+      {
+        "cmd": "rm -r folder/",
+        "desc": "Delete folder and contents"
+      },
+      {
+        "cmd": "rm -i important.txt",
+        "desc": "Ask before deleting"
+      },
+      {
+        "cmd": "rm *.log",
+        "desc": "Delete all .log files"
+      },
+      {
+        "cmd": "rm -rf build/",
+        "desc": "Force delete (careful!)"
+      }
+    ],
+    "protip": "Use 'rm -i' for confirmation prompts. Many pros alias rm to 'rm -i' by default!"
+  },
+  {
+    "name": "rsync",
+    "description": "Remote sync - efficiently sync files by copying only differences.",
+    "examples": [
+      {
+        "cmd": "rsync -avz source/ dest/",
+        "desc": "Sync folders"
+      },
+      {
+        "cmd": "rsync -avz --delete src/ backup/",
+        "desc": "Perfect mirror"
+      },
+      {
+        "cmd": "rsync -avz -e ssh folder/ user@server:~/",
+        "desc": "Sync via SSH"
+      }
+    ],
+    "protip": "Add '--dry-run' to preview changes before committing!"
+  },
+  {
+    "name": "scp",
+    "description": "Secure copy - transfer files between computers over SSH.",
+    "examples": [
+      {
+        "cmd": "scp file.txt user@server:/path/",
+        "desc": "Upload file"
+      },
+      {
+        "cmd": "scp -r folder/ user@server:~/",
+        "desc": "Upload folder"
+      },
+      {
+        "cmd": "scp user@server:/file.txt .",
+        "desc": "Download file"
+      },
+      {
+        "cmd": "scp -P 2222 file.txt user@server:~/",
+        "desc": "Custom port"
+      }
+    ],
+    "protip": "Use capital -P for port: 'scp -P 2222' (different from ssh -p)!"
+  },
+  {
+    "name": "sed",
+    "description": "Stream editor - edits text without opening files.",
+    "examples": [
+      {
+        "cmd": "sed 's/old/new/g' file.txt",
+        "desc": "Replace all occurrences"
+      },
+      {
+        "cmd": "sed -i 's/foo/bar/g' *.txt",
+        "desc": "Replace in-place"
+      },
+      {
+        "cmd": "sed -n '10,20p' file.txt",
+        "desc": "Print lines 10-20"
+      },
+      {
+        "cmd": "sed '/pattern/d' file.txt",
+        "desc": "Delete matching lines"
+      }
+    ],
+    "protip": "Test without '-i' first to see changes before saving!"
+  },
+  {
+    "name": "ssh",
+    "description": "Secure shell - connect to remote computers securely.",
+    "examples": [
+      {
+        "cmd": "ssh user@server.com",
+        "desc": "Connect to server"
+      },
+      {
+        "cmd": "ssh -p 2222 user@server.com",
+        "desc": "Use custom port"
+      },
+      {
+        "cmd": "ssh -i ~/.ssh/key.pem user@server.com",
+        "desc": "Use specific key"
+      },
+      {
+        "cmd": "ssh user@server 'ls -la'",
+        "desc": "Run single command"
+      }
+    ],
+    "protip": "Set up SSH keys (ssh-keygen) to login without passwords!"
+  },
+  {
+    "name": "sudo",
+    "description": "Execute as superuser - run commands with admin privileges.",
+    "examples": [
+      {
+        "cmd": "sudo apt update",
+        "desc": "Run package manager as admin"
+      },
+      {
+        "cmd": "sudo systemctl restart nginx",
+        "desc": "Restart service"
+      },
+      {
+        "cmd": "sudo -i",
+        "desc": "Start root shell"
+      },
+      {
+        "cmd": "sudo -u postgres psql",
+        "desc": "Run as different user"
+      }
+    ],
+    "protip": "Use 'sudo -i' for root shell. 'sudo !!' reruns last command as root!"
+  },
+  {
+    "name": "tail",
+    "description": "Output last lines - shows end of files.",
+    "examples": [
+      {
+        "cmd": "tail file.txt",
+        "desc": "Show last 10 lines"
+      },
+      {
+        "cmd": "tail -n 50 file.txt",
+        "desc": "Show last 50 lines"
+      },
+      {
+        "cmd": "tail -f /var/log/syslog",
+        "desc": "Follow file live"
+      },
+      {
+        "cmd": "tail -f error.log | grep ERROR",
+        "desc": "Watch for errors"
+      }
+    ],
+    "protip": "Use 'tail -f error.log | grep ERROR' to watch for errors in real-time!"
+  },
+  {
+    "name": "tar",
+    "description": "Archive and compress files - bundles files into single archive.",
+    "examples": [
+      {
+        "cmd": "tar -czvf archive.tar.gz folder/",
+        "desc": "Create archive"
+      },
+      {
+        "cmd": "tar -xzvf archive.tar.gz",
+        "desc": "Extract archive"
+      },
+      {
+        "cmd": "tar -tzf archive.tar.gz",
+        "desc": "List contents"
+      },
+      {
+        "cmd": "tar -xzvf file.tar.gz -C /dest",
+        "desc": "Extract to folder"
+      }
+    ],
+    "protip": "Use 'tar -tzf archive.tar.gz' to peek inside without extracting!"
+  },
+  {
+    "name": "top",
+    "description": "Table of processes - real-time system monitor.",
+    "examples": [
+      {
+        "cmd": "top",
+        "desc": "Launch process monitor"
+      },
+      {
+        "cmd": "top -u username",
+        "desc": "Show user's processes only"
+      },
+      {
+        "cmd": "top -p PID",
+        "desc": "Monitor specific process"
+      }
+    ],
+    "protip": "Press 'P' for CPU sort, 'M' for memory, 'k' to kill, 'q' to quit!"
+  },
+  {
+    "name": "touch",
+    "description": "Create empty files or update timestamps - quick way to make new files.",
+    "examples": [
+      {
+        "cmd": "touch newfile.txt",
+        "desc": "Create empty file"
+      },
+      {
+        "cmd": "touch script.sh && chmod +x script.sh",
+        "desc": "Create and make executable"
+      }
+    ],
+    "protip": "Use 'touch file{1..10}.txt' to create 10 files instantly!"
+  },
+  {
+    "name": "unzip",
+    "description": "Extract zip archives - opens .zip files.",
+    "examples": [
+      {
+        "cmd": "unzip archive.zip",
+        "desc": "Extract to current folder"
+      },
+      {
+        "cmd": "unzip -l archive.zip",
+        "desc": "List contents (preview)"
+      },
+      {
+        "cmd": "unzip archive.zip -d /dest",
+        "desc": "Extract to folder"
+      },
+      {
+        "cmd": "unzip '*.zip'",
+        "desc": "Extract all zip files"
+      }
+    ],
+    "protip": "Use 'unzip -l' to show contents without extracting!"
+  },
+  {
+    "name": "vim",
+    "description": "Vi improved editor - powerful but steep learning curve.",
+    "examples": [
+      {
+        "cmd": "vim file.txt",
+        "desc": "Edit in vim"
+      },
+      {
+        "cmd": "vim +10 file.txt",
+        "desc": "Jump to line 10"
+      },
+      {
+        "cmd": "vim -d file1.txt file2.txt",
+        "desc": "Compare files"
+      }
+    ],
+    "protip": "Press 'i' to insert, ESC to exit mode, ':wq' to save and quit!"
+  },
+  {
+    "name": "wget",
+    "description": "Download files from web - resumes interrupted downloads automatically.",
+    "examples": [
+      {
+        "cmd": "wget https://example.com/file.zip",
+        "desc": "Download file"
+      },
+      {
+        "cmd": "wget -r https://website.com",
+        "desc": "Download entire site"
+      },
+      {
+        "cmd": "wget -c large-file.iso",
+        "desc": "Resume interrupted download"
+      },
+      {
+        "cmd": "wget -b hugefile.zip",
+        "desc": "Download in background"
+      }
+    ],
+    "protip": "Use 'wget -c' to continue partial downloads even after connection drops!"
+  },
+  {
+    "name": "which",
+    "description": "Locate a command - shows full path of executables.",
+    "examples": [
+      {
+        "cmd": "which python",
+        "desc": "Find which Python runs"
+      },
+      {
+        "cmd": "which -a python",
+        "desc": "Show all Python installations"
+      },
+      {
+        "cmd": "which gcc",
+        "desc": "Find compiler location"
+      }
+    ],
+    "protip": "Use 'which -a python' to show ALL installed versions!"
+  },
+  {
+    "name": "zip",
+    "description": "Create zip archives - works on all operating systems.",
+    "examples": [
+      {
+        "cmd": "zip archive.zip file1.txt file2.txt",
+        "desc": "Create zip"
+      },
+      {
+        "cmd": "zip -r folder.zip folder/",
+        "desc": "Zip entire folder"
+      },
+      {
+        "cmd": "zip -e secure.zip file.txt",
+        "desc": "Password-protected"
+      },
+      {
+        "cmd": "zip -9 compressed.zip file.txt",
+        "desc": "Maximum compression"
+      }
+    ],
+    "protip": "Use 'zip -e' to create password-protected archives!"
+  }
+]

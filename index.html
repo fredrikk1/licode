@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Linux Command Of the Day</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#007bff">
+</head>
+<body>
+  <div id="app">
+    <div class="nav-wrapper">
+      <div id="prev-command" class="nav-command">Yesterday</div>
+      <div id="today-btn-top" class="nav-command">Today</div>
+    </div>
+    <div id="main">
+      <div id="command-display">
+        <h1 id="command-name">Loading...</h1>
+        <div id="explanation" class="hidden">
+          <p id="description"></p>
+          <ul id="examples"></ul>
+        </div>
+      </div>
+      <div class="buttons">
+        <button id="share-btn">Share</button>
+      </div>
+    </div>
+    <div class="nav-wrapper">
+      <div id="today-btn-bottom" class="nav-command">Today</div>
+      <div id="next-command" class="nav-command">Tomorrow</div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
