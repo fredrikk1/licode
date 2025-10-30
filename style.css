@@ -149,14 +149,35 @@ button {
   color: #000000;
 }
 
-#today-btn {
-  display: none;
+#today-btn-top,
+#today-btn-bottom {
+  font-size: 1.2rem;
+  color: #999;
+  cursor: pointer;
+  transition: all 0.3s;
+  padding: 10px 20px;
+  font-weight: 500;
+  background: none;
+  border: none;
+  font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
+  opacity: 0;
+  pointer-events: none;
 }
 
-#share-btn:hover,
-#today-btn:hover { 
+#today-btn-top.visible,
+#today-btn-bottom.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#share-btn:hover { 
   background: #000000;
   color: #ffffff;
+}
+
+#today-btn-top:hover,
+#today-btn-bottom:hover {
+  color: #666;
 }
 
 .copy-btn {

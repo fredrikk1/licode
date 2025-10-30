@@ -2,6 +2,7 @@ const commands = [];
 let shuffled = [];
 let todayIndex = 0;
 let currentIndex = 0;
+let isExpanded = false;
 const startDate = new Date('2025-01-01');
 fetch('commands_en.json')
   .then(r => {
@@ -26,14 +27,17 @@ function initApp() {
   todayIndex = daysSince % shuffled.length;
   currentIndex = todayIndex;
   renderDay(todayIndex, 'command-name', 'explanation', false);
-  renderNavDay(todayIndex - 1, 'prev-command', 'Yesterday', todayIndex - 1);
-  renderNavDay(todayIndex + 1, 'next-command', 'Tomorrow', todayIndex + 1);
-  updateTodayButton();
   
-  document.getElementById('today-btn').addEventListener('click', () => {
+  document.getElementById('today-btn-top').addEventListener('click', () => {
     currentIndex = todayIndex;
-    renderDay(todayIndex, 'command-name', 'explanation', false);
-    updateTodayButton();
+    isExpanded = true;
+    renderDay(todayIndex, 'command-name', 'explanation', true);
+  });
+  
+  document.getElementById('today-btn-bottom').addEventListener('click', () => {
+    currentIndex = todayIndex;
+    isExpanded = true;
+    renderDay(todayIndex, 'command-name', 'explanation', true);
   });
   
   document.getElementById('share-btn').addEventListener('click', () => {
@@ -48,53 +52,65 @@ function initApp() {
     }
   });
 }
-function renderDay(index, nameElId, expElId, showExp = false) {
+function renderDay(index, nameElId, expElId, autoExpand = false) {
   const i = (index + shuffled.length) % shuffled.length;
   const cmd = shuffled[i];
   const nameEl = document.getElementById(nameElId);
   nameEl.textContent = cmd.name;
+  
+  // Clear existing content first
+  const exp = document.getElementById(expElId);
+  const desc = exp.querySelector('p');
+  const list = exp.querySelector('ul');
+  const existingProtip = exp.querySelector('.protip');
+  if (existingProtip) existingProtip.remove();
+  
+  // Update content
+  desc.textContent = cmd.description;
+  list.innerHTML = cmd.examples.map((ex, idx) => {
+    const command = typeof ex === 'string' ? ex : ex.cmd;
+    const description = typeof ex === 'object' && ex.desc ? ex.desc : '';
+    return `
+    <li>
+      <div class="example-content">
+        <code>${command}</code>
+        ${description ? `<span class="example-desc">→ ${description}</span>` : ''}
+      </div>
+      <button class="copy-btn" onclick="copyExample('${command.replace(/'/g, "\\'")}', this)">Copy</button>
+    </li>
+  `}).join('');
+  
+  // Add pro tip if exists
+  if (cmd.protip) {
+    const protipEl = document.createElement('div');
+    protipEl.className = 'protip';
+    protipEl.innerHTML = `<strong>💡 Pro tip:</strong> ${cmd.protip}`;
+    exp.appendChild(protipEl);
+  }
+  
   nameEl.onclick = () => {
-    const exp = document.getElementById(expElId);
-    const desc = exp.querySelector('p');
-    const list = exp.querySelector('ul');
     if (exp.classList.contains('hidden')) {
-      desc.textContent = cmd.description;
-      list.innerHTML = cmd.examples.map((ex, idx) => {
-        const command = typeof ex === 'string' ? ex : ex.cmd;
-        const description = typeof ex === 'object' && ex.desc ? ex.desc : '';
-        return `
-        <li>
-          <div class="example-content">
-            <code>${command}</code>
-            ${description ? `<span class="example-desc">→ ${description}</span>` : ''}
-          </div>
-          <button class="copy-btn" onclick="copyExample('${command.replace(/'/g, "\\'")}', this)">Copy</button>
-        </li>
-      `}).join('');
-      
-      // Add pro tip if exists
-      if (cmd.protip) {
-        const protipEl = document.createElement('div');
-        protipEl.className = 'protip';
-        protipEl.innerHTML = `<strong>💡 Pro tip:</strong> ${cmd.protip}`;
-        exp.appendChild(protipEl);
-      }
-      
       exp.classList.remove('hidden');
-      
-      // Show navigation and buttons
+      isExpanded = true;
       showNavigation();
+      updateNavigation();
+      updateTodayButton();
+      updateActiveTab();
     } else {
       exp.classList.add('hidden');
-      // Remove protip if exists
-      const existingProtip = exp.querySelector('.protip');
-      if (existingProtip) existingProtip.remove();
-      
-      // Hide navigation and buttons
+      isExpanded = false;
       hideNavigation();
     }
   };
-  if (showExp && expElId === 'explanation') nameEl.click();
+  
+  // Auto-expand if requested or if already expanded
+  if (autoExpand || isExpanded) {
+    exp.classList.remove('hidden');
+    showNavigation();
+    updateNavigation();
+    updateTodayButton();
+    updateActiveTab();
+  }
 }
 
 function showNavigation() {
@@ -130,6 +146,7 @@ function renderNavDay(index, elId, label = '', clickIndex = null) {
     el.onclick = () => {
       currentIndex = clickIndex;
       renderDay(clickIndex, 'command-name', 'explanation', true);
+      updateNavigation();
       updateTodayButton();
     };
   } else {
@@ -138,12 +155,68 @@ function renderNavDay(index, elId, label = '', clickIndex = null) {
   }
 }
 
+function updateNavigation() {
+  const prevEl = document.getElementById('prev-command');
+  const nextEl = document.getElementById('next-command');
+  
+  // Always set up basic navigation
+  prevEl.textContent = 'Yesterday';
+  prevEl.classList.add('visible');
+  prevEl.onclick = () => {
+    currentIndex = currentIndex - 1;
+    isExpanded = true;
+    renderDay(currentIndex, 'command-name', 'explanation', true);
+  };
+  
+  nextEl.textContent = 'Tomorrow';
+  nextEl.classList.add('visible');
+  nextEl.onclick = () => {
+    currentIndex = currentIndex + 1;
+    isExpanded = true;
+    renderDay(currentIndex, 'command-name', 'explanation', true);
+  };
+}
+
 function updateTodayButton() {
-  const todayBtn = document.getElementById('today-btn');
+  const todayBtnTop = document.getElementById('today-btn-top');
+  const todayBtnBottom = document.getElementById('today-btn-bottom');
+  
   if (currentIndex === todayIndex) {
-    todayBtn.style.display = 'none';
+    // We're viewing today - hide both
+    todayBtnTop.classList.remove('visible');
+    todayBtnBottom.classList.remove('visible');
+  } else if (currentIndex < todayIndex) {
+    // We're viewing yesterday or earlier - show Today at bottom (where Tomorrow usually is)
+    todayBtnTop.classList.remove('visible');
+    todayBtnBottom.classList.add('visible');
   } else {
-    todayBtn.style.display = 'inline-block';
+    // We're viewing tomorrow or later - show Today at top (where Yesterday usually is)
+    todayBtnTop.classList.add('visible');
+    todayBtnBottom.classList.remove('visible');
+  }
+}
+
+function updateActiveTab() {
+  const prevEl = document.getElementById('prev-command');
+  const nextEl = document.getElementById('next-command');
+  const todayBtnTop = document.getElementById('today-btn-top');
+  const todayBtnBottom = document.getElementById('today-btn-bottom');
+  
+  // Remove underline from all
+  prevEl.style.textDecoration = 'none';
+  nextEl.style.textDecoration = 'none';
+  todayBtnTop.style.textDecoration = 'none';
+  todayBtnBottom.style.textDecoration = 'none';
+  
+  // Add underline to active tab
+  if (currentIndex === todayIndex) {
+    // Today is active - but Today button is hidden, so no underline needed
+  } else if (currentIndex < todayIndex) {
+    // Yesterday is active
+    prevEl.style.textDecoration = 'underline';
+  } else {
+    // Tomorrow is active
+    nextEl.style.textDecoration = 'underline';
   }
 }
 function shuffleArray(array, seed) {
