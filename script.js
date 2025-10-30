@@ -115,13 +115,11 @@ function renderDay(index, nameElId, expElId, autoExpand = false) {
 
 function showNavigation() {
   document.getElementById('prev-command').classList.add('visible');
-  document.getElementById('next-command').classList.add('visible');
   document.querySelector('.buttons').classList.add('visible');
 }
 
 function hideNavigation() {
   document.getElementById('prev-command').classList.remove('visible');
-  document.getElementById('next-command').classList.remove('visible');
   document.querySelector('.buttons').classList.remove('visible');
 }
 
@@ -157,7 +155,6 @@ function renderNavDay(index, elId, label = '', clickIndex = null) {
 
 function updateNavigation() {
   const prevEl = document.getElementById('prev-command');
-  const nextEl = document.getElementById('next-command');
   
   if (currentIndex === todayIndex) {
     // We're on Today
@@ -168,38 +165,10 @@ function updateNavigation() {
       isExpanded = true;
       renderDay(currentIndex, 'command-name', 'explanation', true);
     };
-    
-    nextEl.textContent = 'Tomorrow';
-    nextEl.classList.add('visible');
-    nextEl.onclick = () => {
-      currentIndex = todayIndex + 1;
-      isExpanded = true;
-      renderDay(currentIndex, 'command-name', 'explanation', true);
-    };
   } else if (currentIndex === todayIndex - 1) {
     // We're on Yesterday
     prevEl.classList.remove('visible');
     prevEl.onclick = null;
-    
-    nextEl.textContent = 'Tomorrow';
-    nextEl.classList.add('visible');
-    nextEl.onclick = () => {
-      currentIndex = todayIndex;
-      isExpanded = true;
-      renderDay(currentIndex, 'command-name', 'explanation', true);
-    };
-  } else if (currentIndex === todayIndex + 1) {
-    // We're on Tomorrow
-    prevEl.textContent = 'Yesterday';
-    prevEl.classList.add('visible');
-    prevEl.onclick = () => {
-      currentIndex = todayIndex;
-      isExpanded = true;
-      renderDay(currentIndex, 'command-name', 'explanation', true);
-    };
-    
-    nextEl.classList.remove('visible');
-    nextEl.onclick = null;
   }
 }
 
@@ -212,37 +181,26 @@ function updateTodayButton() {
     todayBtnTop.classList.remove('visible');
     todayBtnBottom.classList.remove('visible');
   } else if (currentIndex < todayIndex) {
-    // We're viewing yesterday or earlier - show Today at bottom (where Tomorrow usually is)
+    // We're viewing yesterday - show Today at bottom
     todayBtnTop.classList.remove('visible');
     todayBtnBottom.classList.add('visible');
-  } else {
-    // We're viewing tomorrow or later - show Today at top (where Yesterday usually is)
-    todayBtnTop.classList.add('visible');
-    todayBtnBottom.classList.remove('visible');
   }
 }
 
 function updateActiveTab() {
   const prevEl = document.getElementById('prev-command');
-  const nextEl = document.getElementById('next-command');
   const todayBtnTop = document.getElementById('today-btn-top');
   const todayBtnBottom = document.getElementById('today-btn-bottom');
   
   // Remove underline from all
   prevEl.style.textDecoration = 'none';
-  nextEl.style.textDecoration = 'none';
   todayBtnTop.style.textDecoration = 'none';
   todayBtnBottom.style.textDecoration = 'none';
   
   // Add underline to active tab
-  if (currentIndex === todayIndex) {
-    // Today is active - no visible Today button when on Today
-  } else if (currentIndex === todayIndex - 1) {
+  if (currentIndex === todayIndex - 1) {
     // Yesterday is active
     prevEl.style.textDecoration = 'underline';
-  } else if (currentIndex === todayIndex + 1) {
-    // Tomorrow is active
-    nextEl.style.textDecoration = 'underline';
   }
 }
 function shuffleArray(array, seed) {
