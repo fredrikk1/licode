@@ -159,22 +159,48 @@ function updateNavigation() {
   const prevEl = document.getElementById('prev-command');
   const nextEl = document.getElementById('next-command');
   
-  // Always set up basic navigation
-  prevEl.textContent = 'Yesterday';
-  prevEl.classList.add('visible');
-  prevEl.onclick = () => {
-    currentIndex = currentIndex - 1;
-    isExpanded = true;
-    renderDay(currentIndex, 'command-name', 'explanation', true);
-  };
-  
-  nextEl.textContent = 'Tomorrow';
-  nextEl.classList.add('visible');
-  nextEl.onclick = () => {
-    currentIndex = currentIndex + 1;
-    isExpanded = true;
-    renderDay(currentIndex, 'command-name', 'explanation', true);
-  };
+  if (currentIndex === todayIndex) {
+    // We're on Today
+    prevEl.textContent = 'Yesterday';
+    prevEl.classList.add('visible');
+    prevEl.onclick = () => {
+      currentIndex = todayIndex - 1;
+      isExpanded = true;
+      renderDay(currentIndex, 'command-name', 'explanation', true);
+    };
+    
+    nextEl.textContent = 'Tomorrow';
+    nextEl.classList.add('visible');
+    nextEl.onclick = () => {
+      currentIndex = todayIndex + 1;
+      isExpanded = true;
+      renderDay(currentIndex, 'command-name', 'explanation', true);
+    };
+  } else if (currentIndex === todayIndex - 1) {
+    // We're on Yesterday
+    prevEl.classList.remove('visible');
+    prevEl.onclick = null;
+    
+    nextEl.textContent = 'Tomorrow';
+    nextEl.classList.add('visible');
+    nextEl.onclick = () => {
+      currentIndex = todayIndex;
+      isExpanded = true;
+      renderDay(currentIndex, 'command-name', 'explanation', true);
+    };
+  } else if (currentIndex === todayIndex + 1) {
+    // We're on Tomorrow
+    prevEl.textContent = 'Yesterday';
+    prevEl.classList.add('visible');
+    prevEl.onclick = () => {
+      currentIndex = todayIndex;
+      isExpanded = true;
+      renderDay(currentIndex, 'command-name', 'explanation', true);
+    };
+    
+    nextEl.classList.remove('visible');
+    nextEl.onclick = null;
+  }
 }
 
 function updateTodayButton() {
@@ -210,11 +236,11 @@ function updateActiveTab() {
   
   // Add underline to active tab
   if (currentIndex === todayIndex) {
-    // Today is active - but Today button is hidden, so no underline needed
-  } else if (currentIndex < todayIndex) {
+    // Today is active - no visible Today button when on Today
+  } else if (currentIndex === todayIndex - 1) {
     // Yesterday is active
     prevEl.style.textDecoration = 'underline';
-  } else {
+  } else if (currentIndex === todayIndex + 1) {
     // Tomorrow is active
     nextEl.style.textDecoration = 'underline';
   }
