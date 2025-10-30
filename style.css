@@ -101,15 +101,31 @@ body {
   display: none; 
 }
 
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.nav-left {
+  display: flex;
+  gap: 15px;
+}
+
 .nav-command { 
-  font-size: 1.2rem; 
-  color: #999;
+  font-size: 1rem; 
+  color: #ffffff;
   cursor: pointer; 
   transition: all 0.3s;
-  padding: 10px 20px;
-  font-weight: 500;
+  padding: 8px 16px;
+  font-weight: 600;
   opacity: 0;
   pointer-events: none;
+  border: 2px solid #000000;
+  border-radius: 4px;
+  background: #000000;
+  font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
 }
 
 .nav-command.visible {
@@ -118,54 +134,27 @@ body {
 }
 
 .nav-command:hover { 
-  color: #666;
+  background: #333;
 }
 
-.buttons { 
-  margin-top: 30px; 
-  display: flex; 
-  gap: 15px; 
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
 
-.buttons.visible {
-  opacity: 1;
-  pointer-events: auto;
-}
 
-button { 
-  padding: 12px 28px; 
+#share-btn { 
+  padding: 8px 16px; 
   border: 2px solid #000000; 
   border-radius: 4px; 
-  font-size: 0.9rem; 
+  font-size: 1rem; 
   cursor: pointer;
   font-weight: 600;
   transition: all 0.3s;
   font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
   background: #ffffff;
   color: #000000;
-}
-
-#today-btn-top,
-#today-btn-bottom {
-  font-size: 1.2rem;
-  color: #999;
-  cursor: pointer;
-  transition: all 0.3s;
-  padding: 10px 20px;
-  font-weight: 500;
-  background: none;
-  border: none;
-  font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
   opacity: 0;
   pointer-events: none;
 }
 
-#today-btn-top.visible,
-#today-btn-bottom.visible {
+#share-btn.visible {
   opacity: 1;
   pointer-events: auto;
 }
@@ -175,10 +164,7 @@ button {
   color: #ffffff;
 }
 
-#today-btn-top:hover,
-#today-btn-bottom:hover {
-  color: #666;
-}
+
 
 .copy-btn {
   background: #000000;
@@ -216,6 +202,28 @@ button {
   color: #000000;
 }
 
+#coffee-link {
+  font-size: 0.85rem;
+  color: #999;
+  text-decoration: none;
+  margin-top: 20px;
+  display: block;
+  text-align: center;
+  font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
+  transition: color 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#coffee-link.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#coffee-link:hover {
+  color: #666;
+}
+
 @media (max-width: 767px) { 
   #command-name { 
     font-size: 2.5rem; 
@@ -234,9 +242,18 @@ button {
     padding: 8px 15px;
   }
   
-  button {
-    padding: 10px 20px;
-    font-size: 0.85rem;
+  .nav-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .nav-left {
+    width: 100%;
+  }
+  
+  #share-btn {
+    align-self: flex-end;
   }
   
   .example-content {

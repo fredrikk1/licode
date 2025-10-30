@@ -3,6 +3,7 @@ let shuffled = [];
 let todayIndex = 0;
 let currentIndex = 0;
 let isExpanded = false;
+let isSharedVisitor = false;
 const startDate = new Date('2025-01-01');
 fetch('commands_en.json')
   .then(r => {
@@ -26,26 +27,29 @@ function initApp() {
   const daysSince = Math.floor((utcDate - utcStart) / 86400000);
   todayIndex = daysSince % shuffled.length;
   currentIndex = todayIndex;
+  
+  // Check if visitor came from a shared link
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('shared')) {
+    isSharedVisitor = true;
+  }
+  
   renderDay(todayIndex, 'command-name', 'explanation', false);
   
-  document.getElementById('today-btn-top').addEventListener('click', () => {
-    currentIndex = todayIndex;
-    isExpanded = true;
-    renderDay(todayIndex, 'command-name', 'explanation', true);
-  });
-  
-  document.getElementById('today-btn-bottom').addEventListener('click', () => {
+  document.getElementById('today-btn').addEventListener('click', () => {
     currentIndex = todayIndex;
     isExpanded = true;
     renderDay(todayIndex, 'command-name', 'explanation', true);
   });
   
   document.getElementById('share-btn').addEventListener('click', () => {
-    const cmd = shuffled[todayIndex];
-    const text = `Today's Linux command: ${cmd.name} – ${cmd.description}`;
-    const url = window.location.href;
+    const cmd = shuffled[currentIndex];
+    const dayLabel = currentIndex === todayIndex ? 'Today' : 'Yesterday';
+    const text = `Daily Linux command: ${cmd.name}`;
+    const baseUrl = window.location.origin + window.location.pathname;
+    const url = `${baseUrl}?shared=true`;
     if (navigator.share) {
-      navigator.share({ title: 'Daily Command', text, url });
+      navigator.share({ title: 'Daily Linux Command', text, url });
     } else {
       navigator.clipboard.writeText(`${text}\n${url}`);
       alert('Link copied!');
@@ -88,7 +92,16 @@ function renderDay(index, nameElId, expElId, autoExpand = false) {
     exp.appendChild(protipEl);
   }
   
+  // Move nav container to the end (after protip if it exists)
+  const navContainer = exp.querySelector('.nav-container');
+  if (navContainer) {
+    exp.appendChild(navContainer);
+  }
+  
   nameEl.onclick = () => {
+    // Only allow toggling when viewing Today
+    if (currentIndex !== todayIndex) return;
+    
     if (exp.classList.contains('hidden')) {
       exp.classList.remove('hidden');
       isExpanded = true;
@@ -110,17 +123,35 @@ function renderDay(index, nameElId, expElId, autoExpand = false) {
     updateNavigation();
     updateTodayButton();
     updateActiveTab();
+    updateCoffeeLink();
   }
 }
 
 function showNavigation() {
   document.getElementById('prev-command').classList.add('visible');
-  document.querySelector('.buttons').classList.add('visible');
+  document.getElementById('share-btn').classList.add('visible');
+  updateCoffeeLink();
 }
 
 function hideNavigation() {
   document.getElementById('prev-command').classList.remove('visible');
-  document.querySelector('.buttons').classList.remove('visible');
+  document.getElementById('share-btn').classList.remove('visible');
+  updateCoffeeLink();
+}
+
+function updateCoffeeLink() {
+  const coffeeLink = document.getElementById('coffee-link');
+  
+  if (isSharedVisitor && isExpanded) {
+    // Shared visitors: show coffee link when they interact (expand any day)
+    coffeeLink.classList.add('visible');
+  } else if (!isSharedVisitor && currentIndex === todayIndex - 1) {
+    // Fresh visitors: only show on Yesterday
+    coffeeLink.classList.add('visible');
+  } else {
+    // Hide coffee link
+    coffeeLink.classList.remove('visible');
+  }
 }
 
 function copyExample(text, button) {
@@ -173,29 +204,24 @@ function updateNavigation() {
 }
 
 function updateTodayButton() {
-  const todayBtnTop = document.getElementById('today-btn-top');
-  const todayBtnBottom = document.getElementById('today-btn-bottom');
+  const todayBtn = document.getElementById('today-btn');
   
   if (currentIndex === todayIndex) {
-    // We're viewing today - hide both
-    todayBtnTop.classList.remove('visible');
-    todayBtnBottom.classList.remove('visible');
+    // We're viewing today - hide Today button
+    todayBtn.classList.remove('visible');
   } else if (currentIndex < todayIndex) {
-    // We're viewing yesterday - show Today at bottom
-    todayBtnTop.classList.remove('visible');
-    todayBtnBottom.classList.add('visible');
+    // We're viewing yesterday - show Today button
+    todayBtn.classList.add('visible');
   }
 }
 
 function updateActiveTab() {
   const prevEl = document.getElementById('prev-command');
-  const todayBtnTop = document.getElementById('today-btn-top');
-  const todayBtnBottom = document.getElementById('today-btn-bottom');
+  const todayBtn = document.getElementById('today-btn');
   
   // Remove underline from all
   prevEl.style.textDecoration = 'none';
-  todayBtnTop.style.textDecoration = 'none';
-  todayBtnBottom.style.textDecoration = 'none';
+  todayBtn.style.textDecoration = 'none';
   
   // Add underline to active tab
   if (currentIndex === todayIndex - 1) {
