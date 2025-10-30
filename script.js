@@ -40,6 +40,7 @@ function initApp() {
     currentIndex = todayIndex;
     isExpanded = true;
     renderDay(todayIndex, 'command-name', 'explanation', true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
   
   document.getElementById('share-btn').addEventListener('click', () => {
@@ -195,6 +196,7 @@ function updateNavigation() {
       currentIndex = todayIndex - 1;
       isExpanded = true;
       renderDay(currentIndex, 'command-name', 'explanation', true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     };
   } else if (currentIndex === todayIndex - 1) {
     // We're on Yesterday

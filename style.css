@@ -105,7 +105,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 30px;
+  width: 100%;
 }
 
 .nav-left {
@@ -238,23 +239,20 @@ body {
   }
   
   .nav-command { 
-    font-size: 1rem; 
-    padding: 8px 15px;
-  }
-  
-  .nav-container {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
+    font-size: 0.85rem; 
+    padding: 6px 10px;
   }
   
   .nav-left {
-    width: 100%;
+    gap: 8px;
   }
   
   #share-btn {
-    align-self: flex-end;
+    font-size: 0.85rem;
+    padding: 6px 10px;
   }
+  
+
   
   .example-content {
     flex-direction: column;
