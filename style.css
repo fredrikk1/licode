@@ -352,12 +352,12 @@ body {
   .prompt-text {
     position: static;
     transform: none;
-    font-size: 1.09rem;
+    font-size: 1.3rem;
     grid-column: 1 / -1;
     grid-row: 1;
     text-align: center;
-    height: 1.09rem;
-    line-height: 1.09rem;
+    height: 1.3rem;
+    line-height: 1.3rem;
     align-self: start;
   }
 
