@@ -128,6 +128,12 @@ function renderDay(index, nameElId, expElId, autoExpand = false) {
       isExpanded = true;
       terminalContainer.classList.add('focused');
       
+      // Hide cursor immediately when clicking
+      const cursor = document.querySelector('.cursor');
+      if (cursor) {
+        cursor.classList.add('hidden-cursor');
+      }
+      
       // Animate examples sequentially
       const examples = list.querySelectorAll('li');
       const protip = exp.querySelector('.protip');
@@ -189,6 +195,12 @@ function renderDay(index, nameElId, expElId, autoExpand = false) {
   if (autoExpand || isExpanded) {
     exp.classList.remove('hidden');
     
+    // Hide cursor immediately
+    const cursor = document.querySelector('.cursor');
+    if (cursor) {
+      cursor.classList.add('hidden-cursor');
+    }
+    
     // Show everything immediately without animation
     const examples = list.querySelectorAll('li');
     const protip = exp.querySelector('.protip');
@@ -213,22 +225,12 @@ function renderDay(index, nameElId, expElId, autoExpand = false) {
 function showNavigation() {
   document.getElementById('prev-command').classList.add('visible');
   document.getElementById('share-btn').classList.add('visible');
-  // Hide cursor when expanding
-  const cursor = document.querySelector('.cursor');
-  if (cursor) {
-    cursor.classList.add('hidden-cursor');
-  }
   updateCoffeeLink();
 }
 
 function hideNavigation() {
   document.getElementById('prev-command').classList.remove('visible');
   document.getElementById('share-btn').classList.remove('visible');
-  // Show cursor when collapsing
-  const cursor = document.querySelector('.cursor');
-  if (cursor) {
-    cursor.classList.remove('hidden-cursor');
-  }
   updateCoffeeLink();
 }
 
