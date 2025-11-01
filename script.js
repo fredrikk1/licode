@@ -92,7 +92,7 @@ function renderDay(index, nameElId, expElId, autoExpand = false) {
     const command = typeof ex === 'string' ? ex : ex.cmd;
     const description = typeof ex === 'object' && ex.desc ? ex.desc : '';
     return `
-    <li>
+    <li class="${idx === 0 ? 'visible' : ''}">
       <div class="example-content">
         <code>${command}</code>
         ${description ? `<span class="example-desc">→ ${description}</span>` : ''}
@@ -119,23 +119,44 @@ function renderDay(index, nameElId, expElId, autoExpand = false) {
   const terminalContainer = document.getElementById('terminal-container');
   
   const commandClickHandler = (e) => {
-    // Only allow toggling when viewing Today
+    // Only allow expanding when viewing Today, not collapsing
     if (currentIndex !== todayIndex) return;
     
+    // Only expand if hidden, don't allow collapsing
     if (exp.classList.contains('hidden')) {
       exp.classList.remove('hidden');
       isExpanded = true;
       terminalContainer.classList.add('focused');
-      showNavigation();
-      updateNavigation();
-      updateTodayButton();
-      updateActiveTab();
-    } else {
-      exp.classList.add('hidden');
-      isExpanded = false;
-      terminalContainer.classList.remove('focused');
-      hideNavigation();
+      
+      // Animate examples sequentially
+      const examples = list.querySelectorAll('li');
+      const protip = exp.querySelector('.protip');
+      const delay = 3500; // 3.5 seconds between each
+      
+      examples.forEach((example, idx) => {
+        setTimeout(() => {
+          example.classList.add('visible');
+        }, idx * delay);
+      });
+      
+      // Show protip and navigation after all examples
+      const protipDelay = examples.length * delay;
+      
+      if (protip) {
+        setTimeout(() => {
+          protip.classList.add('visible');
+        }, protipDelay);
+      }
+      
+      // Show navigation at same time as protip
+      setTimeout(() => {
+        showNavigation();
+        updateNavigation();
+        updateTodayButton();
+        updateActiveTab();
+      }, protipDelay);
     }
+    // Removed the else block - no collapsing allowed!
   };
   
   // Remove old listener and add new one - only on container
@@ -167,6 +188,20 @@ function renderDay(index, nameElId, expElId, autoExpand = false) {
   // Auto-expand if requested or if already expanded
   if (autoExpand || isExpanded) {
     exp.classList.remove('hidden');
+    
+    // Show everything immediately without animation
+    const examples = list.querySelectorAll('li');
+    const protip = exp.querySelector('.protip');
+    
+    examples.forEach((example) => {
+      example.classList.add('visible');
+    });
+    
+    if (protip) {
+      protip.classList.add('visible');
+    }
+    
+    // Show navigation immediately
     showNavigation();
     updateNavigation();
     updateTodayButton();
