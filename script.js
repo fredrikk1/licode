@@ -13,6 +13,7 @@ let todayIndex = 0;
 let currentIndex = 0;
 let isExpanded = false;
 let isSharedVisitor = false;
+let coffeeHasBeenShown = false;
 const startDate = new Date('2025-01-01');
 fetch('commands_en.json')
   .then(r => {
@@ -199,14 +200,22 @@ function hideNavigation() {
 function updateCoffeeLink() {
   const coffeeLink = document.getElementById('coffee-link');
   
+  // Once shown, keep it visible
+  if (coffeeHasBeenShown) {
+    coffeeLink.classList.add('visible');
+    return;
+  }
+  
   if (isSharedVisitor && isExpanded) {
     // Shared visitors: show coffee link when they interact (expand any day)
     coffeeLink.classList.add('visible');
+    coffeeHasBeenShown = true;
   } else if (!isSharedVisitor && currentIndex === todayIndex - 1) {
-    // Fresh visitors: only show on Yesterday
+    // Fresh visitors: show on Yesterday and keep visible after that
     coffeeLink.classList.add('visible');
+    coffeeHasBeenShown = true;
   } else {
-    // Hide coffee link
+    // Hide coffee link (only before it's been shown)
     coffeeLink.classList.remove('visible');
   }
 }
