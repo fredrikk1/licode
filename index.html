@@ -3,30 +3,61 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>licod.io - Daily Linux commands</title>
-  <meta name="description" content="Learn one Linux command every day. Simple, minimal, effective.">
+  
+  <!-- Primary Meta Tags -->
+  <title>licod.io - Learn One Linux Command Every Day</title>
+  <meta name="title" content="licod.io - Learn One Linux Command Every Day">
+  <meta name="description" content="Master Linux commands one day at a time. Daily curated commands with examples and pro tips. Simple, minimal, effective.">
+  <meta name="keywords" content="linux, unix, commands, terminal, shell, bash, tutorial, learn, daily">
+  <meta name="author" content="licod.io">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://licod.io/">
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://licod.io/">
-  <meta property="og:title" content="licod.io - Daily Linux commands">
-  <meta property="og:description" content="Learn one Linux command every day. Simple, minimal, effective.">
+  <meta property="og:site_name" content="licod.io">
+  <meta property="og:title" content="licod.io - Learn One Linux Command Every Day">
+  <meta property="og:description" content="Master Linux commands one day at a time. Daily curated commands with examples and pro tips.">
+  <meta property="og:locale" content="en_US">
   
   <!-- Twitter -->
-  <meta property="twitter:card" content="summary">
-  <meta property="twitter:url" content="https://licod.io/">
-  <meta property="twitter:title" content="licod.io - Daily Linux commands">
-  <meta property="twitter:description" content="Learn one Linux command every day. Simple, minimal, effective.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:url" content="https://licod.io/">
+  <meta name="twitter:title" content="licod.io - Learn One Linux Command Every Day">
+  <meta name="twitter:description" content="Master Linux commands one day at a time. Daily curated commands with examples and pro tips.">
+  <meta name="twitter:creator" content="@licod_io">
   
+  <!-- Preload critical resources -->
+  <link rel="preload" href="style.css" as="style">
+  <link rel="preload" href="script.js" as="script">
+  <link rel="preload" href="commands_en.json" as="fetch" crossorigin>
+  
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="style.css" />
+  
+  <!-- PWA -->
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="licod.io">
+  
+  <!-- Favicon (placeholder - add your own) -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" href="/favicon.png">
 </head>
 <body>
   <div id="app">
     <div id="main">
       <div id="command-display">
-        <h1 id="command-name">Loading...</h1>
+        <div id="terminal-container" class="terminal-prompt">
+          <div class="command-wrapper">
+            <span class="prompt-text">user@licod.io:~$</span>
+            <span class="typing-text" id="command-name">ls</span>
+            <span class="cursor"></span>
+          </div>
+        </div>
         <div id="explanation" class="hidden">
           <p id="description"></p>
           <ul id="examples"></ul>

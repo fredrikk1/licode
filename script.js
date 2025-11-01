@@ -1,3 +1,12 @@
+// Register service worker for offline support
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(reg => console.log('Service Worker registered'))
+      .catch(err => console.log('Service Worker registration failed:', err))
+  })
+}
+
 const commands = [];
 let shuffled = [];
 let todayIndex = 0;
@@ -63,6 +72,12 @@ function renderDay(index, nameElId, expElId, autoExpand = false) {
   const nameEl = document.getElementById(nameElId);
   nameEl.textContent = cmd.name;
   
+  // Reset animation by removing and re-adding the class
+  nameEl.classList.remove('animate-in');
+  // Trigger reflow to restart animation
+  void nameEl.offsetWidth;
+  nameEl.classList.add('animate-in');
+  
   // Clear existing content first
   const exp = document.getElementById(expElId);
   const desc = exp.querySelector('p');
@@ -99,13 +114,17 @@ function renderDay(index, nameElId, expElId, autoExpand = false) {
     exp.appendChild(navContainer);
   }
   
-  nameEl.onclick = () => {
+  // Setup click handler for expanding details
+  const terminalContainer = document.getElementById('terminal-container');
+  
+  const commandClickHandler = (e) => {
     // Only allow toggling when viewing Today
     if (currentIndex !== todayIndex) return;
     
     if (exp.classList.contains('hidden')) {
       exp.classList.remove('hidden');
       isExpanded = true;
+      terminalContainer.classList.add('focused');
       showNavigation();
       updateNavigation();
       updateTodayButton();
@@ -113,9 +132,36 @@ function renderDay(index, nameElId, expElId, autoExpand = false) {
     } else {
       exp.classList.add('hidden');
       isExpanded = false;
+      terminalContainer.classList.remove('focused');
       hideNavigation();
     }
   };
+  
+  // Remove old listener and add new one - only on container
+  if (terminalContainer) {
+    terminalContainer.removeEventListener('click', window.commandClickHandler);
+    window.commandClickHandler = commandClickHandler;
+    terminalContainer.addEventListener('click', commandClickHandler);
+  }
+  
+  // Show command text and hide prompt after typing animation completes
+  // typing animation is 1s with delay 1.5s = total 2.5s
+  // Add extra 800ms delay before prompt fades out
+  setTimeout(() => {
+    const cmdEl = document.getElementById(nameElId);
+    const promptEl = document.querySelector('.prompt-text');
+    const spaceEl = document.querySelector('.space');
+    
+    if (cmdEl) {
+      cmdEl.classList.add('visible');
+    }
+    if (promptEl) {
+      promptEl.classList.add('hide');
+    }
+    if (spaceEl) {
+      spaceEl.classList.add('hide');
+    }
+  }, 3300);
   
   // Auto-expand if requested or if already expanded
   if (autoExpand || isExpanded) {
@@ -131,12 +177,22 @@ function renderDay(index, nameElId, expElId, autoExpand = false) {
 function showNavigation() {
   document.getElementById('prev-command').classList.add('visible');
   document.getElementById('share-btn').classList.add('visible');
+  // Hide cursor when expanding
+  const cursor = document.querySelector('.cursor');
+  if (cursor) {
+    cursor.classList.add('hidden-cursor');
+  }
   updateCoffeeLink();
 }
 
 function hideNavigation() {
   document.getElementById('prev-command').classList.remove('visible');
   document.getElementById('share-btn').classList.remove('visible');
+  // Show cursor when collapsing
+  const cursor = document.querySelector('.cursor');
+  if (cursor) {
+    cursor.classList.remove('hidden-cursor');
+  }
   updateCoffeeLink();
 }
 

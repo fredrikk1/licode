@@ -1,0 +1,6 @@
+# robots.txt for licod.io
+
+User-agent: *
+Allow: /
+
+Sitemap: https://licod.io/sitemap.xml

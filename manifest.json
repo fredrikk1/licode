@@ -1,20 +1,28 @@
 {
-  "name": "Daily Linux Command",
-  "short_name": "DailyCmd",
-  "start_url": ".",
+  "name": "licod.io - Linux Command of the Day",
+  "short_name": "licod.io",
+  "description": "Learn one Linux command every day with examples and pro tips",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#f5f7fa",
-  "theme_color": "#007bff",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "categories": ["education", "productivity"],
+  "lang": "en",
+  "dir": "ltr",
   "icons": [
     {
-      "src": "icons/icon-192.png",
+      "src": "/icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "icons/icon-512.png",
+      "src": "/icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
