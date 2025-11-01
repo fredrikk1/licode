@@ -1,6 +1,6 @@
-# licod.io - Linux Command of the Day
+# licod.io - Learn Linux Daily
 
-> Learn one Linux command every day. Simple, minimal, effective.
+> Master Linux one day at a time. Simple, minimal, effective.
 
 ## 🚀 Features
 

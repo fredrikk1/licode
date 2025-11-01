@@ -57,9 +57,22 @@ PYTHON
 cp commands_en.json dist/
 cp manifest.json dist/
 
+# Copy icons and other assets
+echo "📦 Copying icons and assets..."
+cp -r icons dist/ 2>/dev/null || echo "⚠️  No icons/ folder found (run favicon setup first)"
+cp sw.js dist/ 2>/dev/null || echo "⚠️  No sw.js found"
+cp robots.txt dist/ 2>/dev/null || echo "⚠️  No robots.txt found"
+cp sitemap.xml dist/ 2>/dev/null || echo "⚠️  No sitemap.xml found"
+cp favicon*.png dist/ 2>/dev/null || echo "⚠️  No favicon PNGs found"
+cp favicon.ico dist/ 2>/dev/null || echo "⚠️  No favicon.ico found"
+cp favicon.svg dist/ 2>/dev/null || true
+
 # Update HTML to use minified files
 sed -i 's/style\.css/style.min.css/g' dist/index.html
 sed -i 's/script\.js/script.min.js/g' dist/index.html
 
 echo "✅ Build complete! Files in dist/"
 ls -lh dist/
+echo ""
+echo "📂 Icons:"
+ls -lh dist/icons/ 2>/dev/null || echo "No icons folder"

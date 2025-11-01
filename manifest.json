@@ -1,7 +1,7 @@
 {
-  "name": "licod.io - Linux Command of the Day",
+  "name": "licod.io - Learn Linux Daily",
   "short_name": "licod.io",
-  "description": "Learn one Linux command every day with examples and pro tips",
+  "description": "Master Linux one day at a time with daily lessons, commands and tips",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
