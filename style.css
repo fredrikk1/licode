@@ -342,7 +342,7 @@ body {
   .command-wrapper {
     display: grid;
     grid-template-columns: auto auto;
-    grid-template-rows: 1.89rem auto;
+    grid-template-rows: 2.1rem auto;
     align-items: center;
     justify-content: center;
     gap: 0;
@@ -352,17 +352,18 @@ body {
   .prompt-text {
     position: static;
     transform: none;
-    font-size: 1.3rem;
+    font-size: 1.6rem;
+    font-weight: 700;
     grid-column: 1 / -1;
     grid-row: 1;
     text-align: center;
-    height: 1.3rem;
-    line-height: 1.3rem;
+    height: 1.6rem;
+    line-height: 1.6rem;
     align-self: start;
   }
 
   .typing-text {
-    font-size: 2.42rem;
+    font-size: 2.8rem;
     grid-column: 1;
     grid-row: 2;
     text-align: right;
@@ -370,7 +371,7 @@ body {
   }
 
   .cursor {
-    height: 2.42rem;
+    height: 2.8rem;
     margin-left: 3px;
     width: 2px;
     grid-column: 2;
