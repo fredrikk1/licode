@@ -1,7 +1,7 @@
 // Service Worker for licod.io
 // Provides offline support and caching
 
-const CACHE_NAME = 'licod-v12'
+const CACHE_NAME = 'licod-v13'
 const urlsToCache = [
   '/',
   '/index.html',

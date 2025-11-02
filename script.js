@@ -94,7 +94,7 @@ function renderDay(index, nameElId, expElId, autoExpand = false) {
     return `
     <li class="${idx === 0 ? 'visible' : ''}">
       <div class="example-content">
-        <code>${command}</code>
+        <code translate="no">${command}</code>
         ${description ? `<span class="example-desc">→ ${description}</span>` : ''}
       </div>
       <button class="copy-btn" onclick="copyExample('${command.replace(/'/g, "\\'")}', this)">Copy</button>
@@ -134,19 +134,25 @@ function renderDay(index, nameElId, expElId, autoExpand = false) {
         cursor.classList.add('hidden-cursor');
       }
       
-      // Animate examples sequentially
+      // Animate examples sequentially with decreasing delays
       const examples = list.querySelectorAll('li');
       const protip = exp.querySelector('.protip');
-      const delay = 3500; // 3.5 seconds between each
+      const baseDelay = 3500; // First delay: 3.5s
+      const decrementPerStep = 700; // Decrease by 0.7s each time
       
+      let cumulativeDelay = 0;
       examples.forEach((example, idx) => {
         setTimeout(() => {
           example.classList.add('visible');
-        }, idx * delay);
+        }, cumulativeDelay);
+        
+        // Calculate next delay (minimum 0)
+        const nextDelay = Math.max(0, baseDelay - (idx * decrementPerStep));
+        cumulativeDelay += nextDelay;
       });
       
       // Show protip and navigation after all examples
-      const protipDelay = examples.length * delay;
+      const protipDelay = cumulativeDelay;
       
       if (protip) {
         setTimeout(() => {

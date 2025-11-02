@@ -317,6 +317,9 @@ body {
   transition: color 0.3s ease;
   opacity: 0;
   pointer-events: none;
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 100%;
 }
 
 #coffee-link.visible {
@@ -337,6 +340,7 @@ body {
     align-items: center;
     gap: 0;
     padding: 1rem 0;
+    overflow: hidden;
   }
 
   .command-wrapper {
@@ -347,12 +351,13 @@ body {
     justify-content: center;
     gap: 0;
     width: 100%;
+    overflow: hidden;
   }
 
   .prompt-text {
     position: static;
     transform: none;
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     font-weight: 700;
     grid-column: 1 / -1;
     grid-row: 1;
@@ -360,6 +365,10 @@ body {
     height: 1.6rem;
     line-height: 1.6rem;
     align-self: start;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
   }
 
   .typing-text {
@@ -377,6 +386,10 @@ body {
     grid-column: 2;
     grid-row: 2;
     align-self: start;
+  }
+
+  #terminal-container.focused {
+    margin-top: 30px;
   }
 
   #terminal-container.focused .typing-text {
