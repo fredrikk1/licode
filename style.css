@@ -8,6 +8,7 @@ body {
   font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
   background: #ffffff;
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -311,7 +312,7 @@ body {
   color: #999;
   text-decoration: none;
   margin-top: 20px;
-  display: block;
+  display: none;
   text-align: center;
   font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
   transition: color 0.3s ease;
@@ -323,6 +324,7 @@ body {
 }
 
 #coffee-link.visible {
+  display: block;
   opacity: 1;
   pointer-events: auto;
 }
