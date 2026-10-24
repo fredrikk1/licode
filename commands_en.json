@@ -39,7 +39,30 @@
         "desc": "Sum column 3"
       }
     ],
-    "protip": "Use '-F:' to change delimiter: 'awk -F: '{print $1}' /etc/passwd'"
+    "protip": "Use '-F,' for comma-separated files and 'NR>1' to skip the header line!"
+  },
+  {
+    "name": "basename",
+    "description": "Strip the path - leaves just the file name, optionally without suffix.",
+    "examples": [
+      {
+        "cmd": "basename /var/log/syslog",
+        "desc": "File name only"
+      },
+      {
+        "cmd": "basename photo.jpg .jpg",
+        "desc": "Remove the suffix too"
+      },
+      {
+        "cmd": "dirname /var/log/syslog",
+        "desc": "Folder part only"
+      },
+      {
+        "cmd": "realpath file.txt",
+        "desc": "Full absolute path"
+      }
+    ],
+    "protip": "Great in loops: 'for f in *.png; do echo \"$(basename \"$f\" .png)\"; done'!"
   },
   {
     "name": "cat",
@@ -92,6 +115,25 @@
     "protip": "Just 'cd' with no path takes you home. Use 'cd -' to jump back to previous folder!"
   },
   {
+    "name": "chgrp",
+    "description": "Change group ownership - set which group owns files and folders.",
+    "examples": [
+      {
+        "cmd": "chgrp staff file.txt",
+        "desc": "Change group"
+      },
+      {
+        "cmd": "sudo chgrp -R www-data /var/www",
+        "desc": "Change recursively"
+      },
+      {
+        "cmd": "ls -l file.txt",
+        "desc": "Check the group column"
+      }
+    ],
+    "protip": "Combine with 'chmod g+s dir' so new files inherit the group!"
+  },
+  {
     "name": "chmod",
     "description": "Change file permissions - controls who can read/write/execute files.",
     "examples": [
@@ -104,8 +146,8 @@
         "desc": "Add execute for owner"
       },
       {
-        "cmd": "chmod -R 644 *.txt",
-        "desc": "Set permissions recursively"
+        "cmd": "chmod -R a+rX folder/",
+        "desc": "Make folder readable recursively"
       },
       {
         "cmd": "chmod go-w file.txt",
@@ -157,6 +199,29 @@
     "protip": "Use 'cp -u' to only copy newer files - saves time on big backups!"
   },
   {
+    "name": "crontab",
+    "description": "Schedule recurring jobs - run commands automatically at set times.",
+    "examples": [
+      {
+        "cmd": "crontab -e",
+        "desc": "Edit your scheduled jobs"
+      },
+      {
+        "cmd": "crontab -l",
+        "desc": "List your jobs"
+      },
+      {
+        "cmd": "0 3 * * * /path/to/backup.sh",
+        "desc": "Line: every night at 03:00"
+      },
+      {
+        "cmd": "*/5 * * * * /path/to/cmd",
+        "desc": "Line: every 5 minutes"
+      }
+    ],
+    "protip": "Use crontab.guru to double-check your schedule syntax!"
+  },
+  {
     "name": "curl",
     "description": "Transfer data from servers - download files and test APIs.",
     "examples": [
@@ -180,6 +245,52 @@
     "protip": "Use 'curl -I' to show just headers. 'curl -L' follows redirects!"
   },
   {
+    "name": "cut",
+    "description": "Cut out columns - extract fields or characters from each line.",
+    "examples": [
+      {
+        "cmd": "cut -d, -f1 data.csv",
+        "desc": "First column of a CSV"
+      },
+      {
+        "cmd": "cut -d: -f1,7 /etc/passwd",
+        "desc": "Users and their shells"
+      },
+      {
+        "cmd": "cut -c1-10 file.txt",
+        "desc": "First 10 characters per line"
+      },
+      {
+        "cmd": "cut -f2 data.tsv",
+        "desc": "Second tab-separated field"
+      }
+    ],
+    "protip": "Use 'cut -d: -f1 /etc/passwd' to list every user on the system!"
+  },
+  {
+    "name": "date",
+    "description": "Show date and time - print or format the current date.",
+    "examples": [
+      {
+        "cmd": "date",
+        "desc": "Current date and time"
+      },
+      {
+        "cmd": "date +%F",
+        "desc": "Date as YYYY-MM-DD"
+      },
+      {
+        "cmd": "date -d tomorrow",
+        "desc": "Tomorrow's date"
+      },
+      {
+        "cmd": "date +%s",
+        "desc": "Seconds since 1970 (Unix time)"
+      }
+    ],
+    "protip": "Use 'date +%F' in file names for sortable dates like 2026-10-16!"
+  },
+  {
     "name": "df",
     "description": "Disk free - shows available disk space.",
     "examples": [
@@ -201,6 +312,75 @@
       }
     ],
     "protip": "Use 'df -h | grep -v tmpfs' to hide temporary filesystems!"
+  },
+  {
+    "name": "diff",
+    "description": "Compare files line by line - shows exactly what changed.",
+    "examples": [
+      {
+        "cmd": "diff old.txt new.txt",
+        "desc": "Show differences"
+      },
+      {
+        "cmd": "diff -u old.txt new.txt",
+        "desc": "Unified (patch) format"
+      },
+      {
+        "cmd": "diff -r dir1 dir2",
+        "desc": "Compare whole folders"
+      },
+      {
+        "cmd": "diff -y a.txt b.txt",
+        "desc": "Side by side"
+      }
+    ],
+    "protip": "Use 'diff -u' for the familiar patch format that git uses!"
+  },
+  {
+    "name": "dig",
+    "description": "DNS lookup - asks DNS servers about domains and records.",
+    "examples": [
+      {
+        "cmd": "dig example.com",
+        "desc": "Full DNS answer"
+      },
+      {
+        "cmd": "dig +short example.com",
+        "desc": "Just the IP"
+      },
+      {
+        "cmd": "dig MX example.com",
+        "desc": "Mail servers"
+      },
+      {
+        "cmd": "dig @1.1.1.1 example.com",
+        "desc": "Ask a specific DNS server"
+      }
+    ],
+    "protip": "Use 'dig +short' for just the answer, perfect in scripts!"
+  },
+  {
+    "name": "dmesg",
+    "description": "Show kernel messages - hardware, drivers and boot events.",
+    "examples": [
+      {
+        "cmd": "sudo dmesg",
+        "desc": "All kernel messages"
+      },
+      {
+        "cmd": "sudo dmesg -T",
+        "desc": "Human-readable timestamps"
+      },
+      {
+        "cmd": "sudo dmesg -w",
+        "desc": "Follow new messages"
+      },
+      {
+        "cmd": "sudo dmesg --level=err,warn",
+        "desc": "Only problems"
+      }
+    ],
+    "protip": "Plug in a USB device and run 'sudo dmesg -w' to see it appear live!"
   },
   {
     "name": "du",
@@ -249,6 +429,71 @@
     "protip": "Use 'echo -e' for newlines: 'echo -e \"Line1\\nLine2\"'"
   },
   {
+    "name": "env",
+    "description": "Environment variables - list them or run a command with changes.",
+    "examples": [
+      {
+        "cmd": "env",
+        "desc": "List all environment variables"
+      },
+      {
+        "cmd": "env | grep PATH",
+        "desc": "Find a variable"
+      },
+      {
+        "cmd": "env LANG=C sort file.txt",
+        "desc": "Run with a changed variable"
+      },
+      {
+        "cmd": "printenv HOME",
+        "desc": "Print one variable"
+      }
+    ],
+    "protip": "Use '#!/usr/bin/env python3' in scripts to find the interpreter on any system!"
+  },
+  {
+    "name": "export",
+    "description": "Export variables - pass them on to programs you start.",
+    "examples": [
+      {
+        "cmd": "export EDITOR=vim",
+        "desc": "Set default editor"
+      },
+      {
+        "cmd": "export PATH=\"$HOME/bin:$PATH\"",
+        "desc": "Add a folder to PATH"
+      },
+      {
+        "cmd": "export -p",
+        "desc": "List exported variables"
+      },
+      {
+        "cmd": "unset VAR",
+        "desc": "Remove a variable"
+      }
+    ],
+    "protip": "Put exports in ~/.bashrc to keep them in every new terminal!"
+  },
+  {
+    "name": "file",
+    "description": "Detect file type - looks at the content, not the extension.",
+    "examples": [
+      {
+        "cmd": "file photo.jpg",
+        "desc": "Show file type"
+      },
+      {
+        "cmd": "file *",
+        "desc": "Types of all files here"
+      },
+      {
+        "cmd": "file -i doc.txt",
+        "desc": "Show MIME type"
+      }
+    ],
+    "protip": "Use it on downloads to check that a '.pdf' really is a PDF!"
+  },
+  {
     "name": "find",
     "description": "Search for files and directories - finds files by name, size, date, etc.",
     "examples": [
@@ -270,6 +515,25 @@
       }
     ],
     "protip": "Use 'find . -name \"*.tmp\" -delete' to find and delete in one command!"
+  },
+  {
+    "name": "free",
+    "description": "Show memory usage - RAM and swap, used and available.",
+    "examples": [
+      {
+        "cmd": "free -h",
+        "desc": "Human-readable memory usage"
+      },
+      {
+        "cmd": "free -m",
+        "desc": "Values in megabytes"
+      },
+      {
+        "cmd": "free -h -s 2",
+        "desc": "Refresh every 2 seconds"
+      }
+    ],
+    "protip": "Look at the 'available' column, not 'free' - Linux uses spare RAM as cache!"
   },
   {
     "name": "git",
@@ -326,6 +590,29 @@
     "protip": "Use 'grep -r' to search entire folders, 'grep -v' to show non-matching lines!"
   },
   {
+    "name": "gzip",
+    "description": "Compress files - small, fast and available everywhere.",
+    "examples": [
+      {
+        "cmd": "gzip file.txt",
+        "desc": "Compress (replaces file)"
+      },
+      {
+        "cmd": "gzip -k file.txt",
+        "desc": "Keep the original"
+      },
+      {
+        "cmd": "gunzip file.txt.gz",
+        "desc": "Decompress"
+      },
+      {
+        "cmd": "zcat file.gz",
+        "desc": "Print contents of a .gz file"
+      }
+    ],
+    "protip": "Use 'gzip -k' to keep the original file!"
+  },
+  {
     "name": "head",
     "description": "Output first lines - shows beginning of files.",
     "examples": [
@@ -358,7 +645,7 @@
       },
       {
         "cmd": "history -c",
-        "desc": "Clear history"
+        "desc": "Clear session history"
       },
       {
         "cmd": "!42",
@@ -370,6 +657,29 @@
       }
     ],
     "protip": "Press Ctrl+R for interactive search! '!!' reruns last command!"
+  },
+  {
+    "name": "hostname",
+    "description": "Show host name - the name of your machine on the network.",
+    "examples": [
+      {
+        "cmd": "hostname",
+        "desc": "Show host name"
+      },
+      {
+        "cmd": "hostname -I",
+        "desc": "Show all IP addresses"
+      },
+      {
+        "cmd": "hostnamectl",
+        "desc": "Detailed host info (systemd)"
+      },
+      {
+        "cmd": "sudo hostnamectl set-hostname web01",
+        "desc": "Change host name"
+      }
+    ],
+    "protip": "Use 'hostname -I' to quickly see your machine's IP addresses!"
   },
   {
     "name": "htop",
@@ -389,6 +699,75 @@
       }
     ],
     "protip": "Press F6 to sort, F9 to kill, F5 for tree view!"
+  },
+  {
+    "name": "id",
+    "description": "User and group IDs - shows who you are and which groups you belong to.",
+    "examples": [
+      {
+        "cmd": "id",
+        "desc": "Your UID, GID and groups"
+      },
+      {
+        "cmd": "id alice",
+        "desc": "Another user's IDs"
+      },
+      {
+        "cmd": "id -u",
+        "desc": "Only your numeric user ID"
+      },
+      {
+        "cmd": "id -Gn",
+        "desc": "All your group names"
+      }
+    ],
+    "protip": "Log out and in again after being added to a group, then check with 'id'!"
+  },
+  {
+    "name": "ip",
+    "description": "Network configuration - shows interfaces, addresses and routes.",
+    "examples": [
+      {
+        "cmd": "ip a",
+        "desc": "Show all IP addresses"
+      },
+      {
+        "cmd": "ip -br a",
+        "desc": "Brief address overview"
+      },
+      {
+        "cmd": "ip r",
+        "desc": "Show routing table"
+      },
+      {
+        "cmd": "sudo ip link set eth0 up",
+        "desc": "Bring an interface up"
+      }
+    ],
+    "protip": "'ip -br a' gives a clean one-line-per-interface overview!"
+  },
+  {
+    "name": "journalctl",
+    "description": "System logs - read everything collected by systemd.",
+    "examples": [
+      {
+        "cmd": "journalctl -u nginx",
+        "desc": "Logs for one service"
+      },
+      {
+        "cmd": "journalctl -f",
+        "desc": "Follow new log lines"
+      },
+      {
+        "cmd": "journalctl --since '1 hour ago'",
+        "desc": "Time filter"
+      },
+      {
+        "cmd": "journalctl -b -p err",
+        "desc": "Errors from this boot"
+      }
+    ],
+    "protip": "Use 'journalctl -u name -f' to follow one service's log live!"
   },
   {
     "name": "kill",
@@ -483,6 +862,48 @@
     "protip": "Use 'ls -ltr' to see newest files at bottom - perfect for long directories!"
   },
   {
+    "name": "lsblk",
+    "description": "List block devices - disks, partitions and where they are mounted.",
+    "examples": [
+      {
+        "cmd": "lsblk",
+        "desc": "Disks and partitions"
+      },
+      {
+        "cmd": "lsblk -f",
+        "desc": "Show filesystems and UUIDs"
+      },
+      {
+        "cmd": "lsblk -o NAME,SIZE,MOUNTPOINT",
+        "desc": "Choose columns"
+      }
+    ],
+    "protip": "Run 'lsblk -f' before formatting to be sure you pick the right disk!"
+  },
+  {
+    "name": "lsof",
+    "description": "List open files - see which process uses a file, folder or port.",
+    "examples": [
+      {
+        "cmd": "sudo lsof -i :80",
+        "desc": "What uses port 80"
+      },
+      {
+        "cmd": "sudo lsof -u alice",
+        "desc": "Files opened by a user"
+      },
+      {
+        "cmd": "lsof +D /var/log",
+        "desc": "Who uses files in a folder"
+      },
+      {
+        "cmd": "lsof -p 1234",
+        "desc": "Files opened by a process"
+      }
+    ],
+    "protip": "'sudo lsof -i :8080' finds what is blocking your port!"
+  },
+  {
     "name": "man",
     "description": "Manual pages - built-in documentation for every command.",
     "examples": [
@@ -529,6 +950,29 @@
     "protip": "Use 'mkdir -p path/to/folder' to create all parent directories at once!"
   },
   {
+    "name": "mount",
+    "description": "Attach filesystems - make a disk or image available in a folder.",
+    "examples": [
+      {
+        "cmd": "mount",
+        "desc": "List mounted filesystems"
+      },
+      {
+        "cmd": "sudo mount /dev/sdb1 /mnt",
+        "desc": "Mount a partition"
+      },
+      {
+        "cmd": "sudo umount /mnt",
+        "desc": "Unmount"
+      },
+      {
+        "cmd": "sudo mount -o loop disk.iso /mnt",
+        "desc": "Mount an ISO image"
+      }
+    ],
+    "protip": "Use 'findmnt' for a readable tree of everything that is mounted!"
+  },
+  {
     "name": "mv",
     "description": "Move or rename files - relocates files or changes their names.",
     "examples": [
@@ -569,6 +1013,90 @@
       }
     ],
     "protip": "Ctrl+O saves, Ctrl+X exits, Ctrl+W searches!"
+  },
+  {
+    "name": "nice",
+    "description": "CPU priority - run commands with lower (or higher) priority.",
+    "examples": [
+      {
+        "cmd": "nice -n 19 tar czf backup.tgz /home",
+        "desc": "Lowest priority"
+      },
+      {
+        "cmd": "sudo nice -n -5 cmd",
+        "desc": "Higher priority (needs root)"
+      },
+      {
+        "cmd": "renice 10 -p 1234",
+        "desc": "Change a running process"
+      }
+    ],
+    "protip": "Prefix heavy jobs with 'nice -n 19' so your desktop stays responsive!"
+  },
+  {
+    "name": "nohup",
+    "description": "Ignore hangups - keep a command running after you log out.",
+    "examples": [
+      {
+        "cmd": "nohup ./script.sh &",
+        "desc": "Run in background, immune to logout"
+      },
+      {
+        "cmd": "nohup cmd > out.log 2>&1 &",
+        "desc": "Choose the log file"
+      },
+      {
+        "cmd": "tail -f nohup.out",
+        "desc": "Watch default output"
+      }
+    ],
+    "protip": "For anything long-running, tmux or screen is usually nicer!"
+  },
+  {
+    "name": "ping",
+    "description": "Test network reachability - sends packets and measures the round-trip time.",
+    "examples": [
+      {
+        "cmd": "ping google.com",
+        "desc": "Ping until Ctrl+C"
+      },
+      {
+        "cmd": "ping -c 4 1.1.1.1",
+        "desc": "Send exactly 4 packets"
+      },
+      {
+        "cmd": "ping -i 0.5 example.com",
+        "desc": "Ping every half second"
+      },
+      {
+        "cmd": "ping -W 2 example.com",
+        "desc": "Wait max 2 seconds for reply"
+      }
+    ],
+    "protip": "Use 'ping -c 4' so it stops by itself instead of running forever!"
+  },
+  {
+    "name": "pkill",
+    "description": "Kill by name - stop processes without looking up the PID.",
+    "examples": [
+      {
+        "cmd": "pkill firefox",
+        "desc": "Stop processes by name"
+      },
+      {
+        "cmd": "pgrep -a node",
+        "desc": "Find matching processes first"
+      },
+      {
+        "cmd": "pkill -f 'python app.py'",
+        "desc": "Match the full command line"
+      },
+      {
+        "cmd": "pkill -9 hung-app",
+        "desc": "Force kill (last resort)"
+      }
+    ],
+    "protip": "Run 'pgrep -a name' first to see what would be killed!"
   },
   {
     "name": "ps",
@@ -705,6 +1233,98 @@
     "protip": "Test without '-i' first to see changes before saving!"
   },
   {
+    "name": "sha256sum",
+    "description": "Checksums - compute or verify SHA-256 hashes to check file integrity.",
+    "examples": [
+      {
+        "cmd": "sha256sum file.iso",
+        "desc": "Show checksum"
+      },
+      {
+        "cmd": "sha256sum -c SHA256SUMS",
+        "desc": "Verify against a list"
+      },
+      {
+        "cmd": "sha256sum *.tar.gz > sums.txt",
+        "desc": "Save checksums"
+      },
+      {
+        "cmd": "echo -n text | sha256sum",
+        "desc": "Hash a string"
+      }
+    ],
+    "protip": "Always verify downloaded ISOs with 'sha256sum -c' before installing!"
+  },
+  {
+    "name": "sleep",
+    "description": "Pause for a given time - useful in scripts and loops.",
+    "examples": [
+      {
+        "cmd": "sleep 5",
+        "desc": "Wait 5 seconds"
+      },
+      {
+        "cmd": "sleep 2m",
+        "desc": "Wait 2 minutes"
+      },
+      {
+        "cmd": "sleep 0.5",
+        "desc": "Wait half a second"
+      },
+      {
+        "cmd": "while true; do date; sleep 1; done",
+        "desc": "Simple clock loop"
+      }
+    ],
+    "protip": "Combine with '&&' to run something later: 'sleep 600 && notify-send done'!"
+  },
+  {
+    "name": "sort",
+    "description": "Sort lines of text - alphabetically, numerically or by column.",
+    "examples": [
+      {
+        "cmd": "sort names.txt",
+        "desc": "Sort alphabetically"
+      },
+      {
+        "cmd": "sort -r names.txt",
+        "desc": "Reverse order"
+      },
+      {
+        "cmd": "sort -n numbers.txt",
+        "desc": "Sort numerically"
+      },
+      {
+        "cmd": "sort -u list.txt",
+        "desc": "Sort and remove duplicates"
+      }
+    ],
+    "protip": "Combine 'sort | uniq -c | sort -rn' to rank the most common lines!"
+  },
+  {
+    "name": "ss",
+    "description": "Socket statistics - shows open ports and connections (modern netstat).",
+    "examples": [
+      {
+        "cmd": "sudo ss -tulpn",
+        "desc": "Listening TCP/UDP ports with programs"
+      },
+      {
+        "cmd": "ss -t",
+        "desc": "Active TCP connections"
+      },
+      {
+        "cmd": "ss -s",
+        "desc": "Summary statistics"
+      },
+      {
+        "cmd": "ss -lt 'sport = :22'",
+        "desc": "Who listens on port 22"
+      }
+    ],
+    "protip": "'sudo ss -tulpn' shows which program listens on which port!"
+  },
+  {
     "name": "ssh",
     "description": "Secure shell - connect to remote computers securely.",
     "examples": [
@@ -728,6 +1348,29 @@
     "protip": "Set up SSH keys (ssh-keygen) to login without passwords!"
   },
   {
+    "name": "stat",
+    "description": "Show detailed file info - size, permissions, owner and timestamps.",
+    "examples": [
+      {
+        "cmd": "stat file.txt",
+        "desc": "All file details"
+      },
+      {
+        "cmd": "stat -c %s file.txt",
+        "desc": "Size in bytes"
+      },
+      {
+        "cmd": "stat -c %a file.txt",
+        "desc": "Numeric permissions"
+      },
+      {
+        "cmd": "stat -c %y file.txt",
+        "desc": "Last modification time"
+      }
+    ],
+    "protip": "'stat -c %a file' prints permissions as a number like 644!"
+  },
+  {
     "name": "sudo",
     "description": "Execute as superuser - run commands with admin privileges.",
     "examples": [
@@ -749,6 +1392,29 @@
       }
     ],
     "protip": "Use 'sudo -i' for root shell. 'sudo !!' reruns last command as root!"
+  },
+  {
+    "name": "systemctl",
+    "description": "Control systemd services - start, stop, enable and inspect them.",
+    "examples": [
+      {
+        "cmd": "systemctl status nginx",
+        "desc": "Service status"
+      },
+      {
+        "cmd": "sudo systemctl restart nginx",
+        "desc": "Restart a service"
+      },
+      {
+        "cmd": "sudo systemctl enable --now nginx",
+        "desc": "Start now and on boot"
+      },
+      {
+        "cmd": "systemctl list-units --type=service",
+        "desc": "List services"
+      }
+    ],
+    "protip": "'systemctl --failed' instantly shows which services are broken!"
   },
   {
     "name": "tail",
@@ -797,6 +1463,52 @@
     "protip": "Use 'tar -tzf archive.tar.gz' to peek inside without extracting!"
   },
   {
+    "name": "tee",
+    "description": "Split output - shows output on screen and saves it to a file at the same time.",
+    "examples": [
+      {
+        "cmd": "ls | tee files.txt",
+        "desc": "Show and save output"
+      },
+      {
+        "cmd": "make 2>&1 | tee build.log",
+        "desc": "Log a build while watching it"
+      },
+      {
+        "cmd": "echo hi | tee -a log.txt",
+        "desc": "Append instead of overwrite"
+      },
+      {
+        "cmd": "echo 'x' | sudo tee /etc/myapp.conf",
+        "desc": "Write a root-owned file"
+      }
+    ],
+    "protip": "Use 'echo line | sudo tee -a /etc/file' to append to root-owned files!"
+  },
+  {
+    "name": "tmux",
+    "description": "Terminal multiplexer - multiple windows and sessions that survive disconnects.",
+    "examples": [
+      {
+        "cmd": "tmux new -s work",
+        "desc": "Named session"
+      },
+      {
+        "cmd": "tmux ls",
+        "desc": "List sessions"
+      },
+      {
+        "cmd": "tmux attach -t work",
+        "desc": "Re-attach to a session"
+      },
+      {
+        "cmd": "Ctrl+b d",
+        "desc": "Detach (keeps running)"
+      }
+    ],
+    "protip": "Start every SSH session with 'tmux new -A -s main' - never lose work again!"
+  },
+  {
     "name": "top",
     "description": "Table of processes - real-time system monitor.",
     "examples": [
@@ -831,6 +1543,90 @@
     "protip": "Use 'touch file{1..10}.txt' to create 10 files instantly!"
   },
   {
+    "name": "tr",
+    "description": "Translate characters - replace, squeeze or delete characters in a stream.",
+    "examples": [
+      {
+        "cmd": "echo hello | tr a-z A-Z",
+        "desc": "Convert to uppercase"
+      },
+      {
+        "cmd": "tr '[:upper:]' '[:lower:]' < in.txt",
+        "desc": "Convert to lowercase"
+      },
+      {
+        "cmd": "tr -s ' ' < file.txt",
+        "desc": "Squeeze repeated spaces"
+      },
+      {
+        "cmd": "echo 'a,b,c' | tr , ' '",
+        "desc": "Commas to spaces"
+      }
+    ],
+    "protip": "Squeeze repeated spaces with tr -s before splitting columns with cut!"
+  },
+  {
+    "name": "tree",
+    "description": "Show directories as a tree - see the structure of folders at a glance.",
+    "examples": [
+      {
+        "cmd": "tree",
+        "desc": "Show current folder as a tree"
+      },
+      {
+        "cmd": "tree -L 2",
+        "desc": "Limit depth to 2 levels"
+      },
+      {
+        "cmd": "tree -I 'node_modules|.git'",
+        "desc": "Ignore matching folders"
+      }
+    ],
+    "protip": "Use 'tree -L 2 -I node_modules' to keep big projects readable!"
+  },
+  {
+    "name": "uname",
+    "description": "Print system information - kernel name, version and architecture.",
+    "examples": [
+      {
+        "cmd": "uname -a",
+        "desc": "All system info"
+      },
+      {
+        "cmd": "uname -r",
+        "desc": "Kernel release"
+      },
+      {
+        "cmd": "uname -m",
+        "desc": "Machine architecture (x86_64, aarch64)"
+      }
+    ],
+    "protip": "'uname -r' tells you the kernel version when searching for drivers!"
+  },
+  {
+    "name": "uniq",
+    "description": "Filter repeated lines - removes or counts adjacent duplicates.",
+    "examples": [
+      {
+        "cmd": "sort list.txt | uniq",
+        "desc": "Remove duplicate lines"
+      },
+      {
+        "cmd": "sort list.txt | uniq -c",
+        "desc": "Count occurrences"
+      },
+      {
+        "cmd": "sort list.txt | uniq -d",
+        "desc": "Show only duplicates"
+      },
+      {
+        "cmd": "sort list.txt | uniq -u",
+        "desc": "Lines that appear once"
+      }
+    ],
+    "protip": "uniq only sees neighbours - always 'sort' first!"
+  },
+  {
     "name": "unzip",
     "description": "Extract zip archives - opens .zip files.",
     "examples": [
@@ -854,6 +1650,25 @@
     "protip": "Use 'unzip -l' to show contents without extracting!"
   },
   {
+    "name": "uptime",
+    "description": "System uptime - how long it has been running and the load average.",
+    "examples": [
+      {
+        "cmd": "uptime",
+        "desc": "Uptime, users and load"
+      },
+      {
+        "cmd": "uptime -p",
+        "desc": "Pretty format (up 3 days)"
+      },
+      {
+        "cmd": "uptime -s",
+        "desc": "Time the system booted"
+      }
+    ],
+    "protip": "Load average above your CPU count ('nproc') means processes are waiting!"
+  },
+  {
     "name": "vim",
     "description": "Vi improved editor - powerful but steep learning curve.",
     "examples": [
@@ -873,8 +1688,46 @@
     "protip": "Press 'i' to insert, ESC to exit mode, ':wq' to save and quit!"
   },
   {
+    "name": "watch",
+    "description": "Repeat a command - reruns it and shows the output full-screen.",
+    "examples": [
+      {
+        "cmd": "watch df -h",
+        "desc": "Refresh disk usage every 2s"
+      },
+      {
+        "cmd": "watch -n 1 free -h",
+        "desc": "Refresh every second"
+      },
+      {
+        "cmd": "watch -d ls -l",
+        "desc": "Highlight changes"
+      }
+    ],
+    "protip": "Add '-d' to highlight what changed between updates!"
+  },
+  {
+    "name": "wc",
+    "description": "Word count - counts lines, words and bytes in files or input.",
+    "examples": [
+      {
+        "cmd": "wc file.txt",
+        "desc": "Lines, words and bytes"
+      },
+      {
+        "cmd": "wc -l file.txt",
+        "desc": "Count lines only"
+      },
+      {
+        "cmd": "wc -w essay.txt",
+        "desc": "Count words only"
+      }
+    ],
+    "protip": "Pipe anything into 'wc -l' to count results, e.g. 'ls | wc -l'!"
+  },
+  {
     "name": "wget",
-    "description": "Download files from web - resumes interrupted downloads automatically.",
+    "description": "Download files from web - can resume interrupted downloads.",
     "examples": [
       {
         "cmd": "wget https://example.com/file.zip",
@@ -885,11 +1738,11 @@
         "desc": "Download entire site"
       },
       {
-        "cmd": "wget -c large-file.iso",
+        "cmd": "wget -c https://example.com/large-file.iso",
         "desc": "Resume interrupted download"
       },
       {
-        "cmd": "wget -b hugefile.zip",
+        "cmd": "wget -b https://example.com/hugefile.zip",
         "desc": "Download in background"
       }
     ],
@@ -915,6 +1768,48 @@
     "protip": "Use 'which -a python' to show ALL installed versions!"
   },
   {
+    "name": "whoami",
+    "description": "Current user - prints the user name you are running as.",
+    "examples": [
+      {
+        "cmd": "whoami",
+        "desc": "Show your user name"
+      },
+      {
+        "cmd": "sudo whoami",
+        "desc": "Shows root"
+      },
+      {
+        "cmd": "who",
+        "desc": "Everyone logged in"
+      }
+    ],
+    "protip": "Handy in scripts to refuse running as root by mistake!"
+  },
+  {
+    "name": "xargs",
+    "description": "Build commands from input - turns lines of input into arguments.",
+    "examples": [
+      {
+        "cmd": "find . -name '*.log' -print0 | xargs -0 rm",
+        "desc": "Delete found files"
+      },
+      {
+        "cmd": "find . -name '*.txt' -print0 | xargs -0 wc -l",
+        "desc": "Count lines in found files"
+      },
+      {
+        "cmd": "cat urls.txt | xargs -n1 curl -O",
+        "desc": "Download each URL"
+      },
+      {
+        "cmd": "echo a b c | xargs -n1",
+        "desc": "One argument per line"
+      }
+    ],
+    "protip": "Use 'find ... -print0 | xargs -0' so filenames with spaces work!"
+  },
+  {
     "name": "zip",
     "description": "Create zip archives - works on all operating systems.",
     "examples": [
@@ -928,7 +1823,7 @@
       },
       {
         "cmd": "zip -e secure.zip file.txt",
-        "desc": "Password-protected"
+        "desc": "Password-protect (weak)"
       },
       {
         "cmd": "zip -9 compressed.zip file.txt",

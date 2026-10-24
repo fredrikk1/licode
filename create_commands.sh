@@ -142,7 +142,7 @@ create_cmd "sed" \
 
 create_cmd "awk" \
   "Text processing - extracts and manipulates columns of data." \
-  "Use '-F:' to change delimiter: 'awk -F: '{print \$1}' /etc/passwd'" \
+  "Use '-F,' for comma-separated files and 'NR>1' to skip the header line!" \
   "awk '{print \$1}' file.txt → Print first column" \
   "awk -F: '{print \$1}' /etc/passwd → Extract usernames" \
   "awk 'NR>1 {sum+=\$3} END {print sum}' data.txt → Sum column 3"
@@ -152,7 +152,7 @@ create_cmd "chmod" \
   "755 = rwxr-xr-x. Use 'chmod +x script.sh' for executables!" \
   "chmod 755 script.sh → Make executable for all" \
   "chmod u+x file.sh → Add execute for owner" \
-  "chmod -R 644 *.txt → Set permissions recursively" \
+  "chmod -R a+rX folder/ → Make folder readable recursively" \
   "chmod go-w file.txt → Remove write for group/others"
 
 create_cmd "chown" \
@@ -188,12 +188,12 @@ create_cmd "curl" \
   "curl -I website.com → Show headers only"
 
 create_cmd "wget" \
-  "Download files from web - resumes interrupted downloads automatically." \
+  "Download files from web - can resume interrupted downloads." \
   "Use 'wget -c' to continue partial downloads even after connection drops!" \
   "wget https://example.com/file.zip → Download file" \
   "wget -r https://website.com → Download entire site" \
-  "wget -c large-file.iso → Resume interrupted download" \
-  "wget -b hugefile.zip → Download in background"
+  "wget -c https://example.com/large-file.iso → Resume interrupted download" \
+  "wget -b https://example.com/hugefile.zip → Download in background"
 
 create_cmd "tar" \
   "Archive and compress files - bundles files into single archive." \
@@ -208,7 +208,7 @@ create_cmd "zip" \
   "Use 'zip -e' to create password-protected archives!" \
   "zip archive.zip file1.txt file2.txt → Create zip" \
   "zip -r folder.zip folder/ → Zip entire folder" \
-  "zip -e secure.zip file.txt → Password-protected" \
+  "zip -e secure.zip file.txt → Password-protect (weak)" \
   "zip -9 compressed.zip file.txt → Maximum compression"
 
 create_cmd "unzip" \
@@ -353,7 +353,7 @@ create_cmd "history" \
   "Press Ctrl+R for interactive search! '!!' reruns last command!" \
   "history → Show recent commands" \
   "history | grep git → Search history" \
-  "history -c → Clear history" \
+  "history -c → Clear session history" \
   "!42 → Re-run command #42" \
   "!! → Re-run last command"
 
@@ -365,6 +365,322 @@ create_cmd "alias" \
   "alias grep='grep --color=auto' → Colorize grep" \
   "alias update='sudo apt update && sudo apt upgrade' → Combo command"
 
+create_cmd "basename" \
+  "Strip the path - leaves just the file name, optionally without suffix." \
+  "Great in loops: 'for f in *.png; do echo \"\$(basename \"\$f\" .png)\"; done'!" \
+  "basename /var/log/syslog → File name only" \
+  "basename photo.jpg .jpg → Remove the suffix too" \
+  "dirname /var/log/syslog → Folder part only" \
+  "realpath file.txt → Full absolute path"
+
+create_cmd "chgrp" \
+  "Change group ownership - set which group owns files and folders." \
+  "Combine with 'chmod g+s dir' so new files inherit the group!" \
+  "chgrp staff file.txt → Change group" \
+  "sudo chgrp -R www-data /var/www → Change recursively" \
+  "ls -l file.txt → Check the group column"
+
+create_cmd "crontab" \
+  "Schedule recurring jobs - run commands automatically at set times." \
+  "Use crontab.guru to double-check your schedule syntax!" \
+  "crontab -e → Edit your scheduled jobs" \
+  "crontab -l → List your jobs" \
+  "0 3 * * * /path/to/backup.sh → Line: every night at 03:00" \
+  "*/5 * * * * /path/to/cmd → Line: every 5 minutes"
+
+create_cmd "cut" \
+  "Cut out columns - extract fields or characters from each line." \
+  "Use 'cut -d: -f1 /etc/passwd' to list every user on the system!" \
+  "cut -d, -f1 data.csv → First column of a CSV" \
+  "cut -d: -f1,7 /etc/passwd → Users and their shells" \
+  "cut -c1-10 file.txt → First 10 characters per line" \
+  "cut -f2 data.tsv → Second tab-separated field"
+
+create_cmd "date" \
+  "Show date and time - print or format the current date." \
+  "Use 'date +%F' in file names for sortable dates like 2026-10-16!" \
+  "date → Current date and time" \
+  "date +%F → Date as YYYY-MM-DD" \
+  "date -d tomorrow → Tomorrow's date" \
+  "date +%s → Seconds since 1970 (Unix time)"
+
+create_cmd "diff" \
+  "Compare files line by line - shows exactly what changed." \
+  "Use 'diff -u' for the familiar patch format that git uses!" \
+  "diff old.txt new.txt → Show differences" \
+  "diff -u old.txt new.txt → Unified (patch) format" \
+  "diff -r dir1 dir2 → Compare whole folders" \
+  "diff -y a.txt b.txt → Side by side"
+
+create_cmd "dig" \
+  "DNS lookup - asks DNS servers about domains and records." \
+  "Use 'dig +short' for just the answer, perfect in scripts!" \
+  "dig example.com → Full DNS answer" \
+  "dig +short example.com → Just the IP" \
+  "dig MX example.com → Mail servers" \
+  "dig @1.1.1.1 example.com → Ask a specific DNS server"
+
+create_cmd "dmesg" \
+  "Show kernel messages - hardware, drivers and boot events." \
+  "Plug in a USB device and run 'sudo dmesg -w' to see it appear live!" \
+  "sudo dmesg → All kernel messages" \
+  "sudo dmesg -T → Human-readable timestamps" \
+  "sudo dmesg -w → Follow new messages" \
+  "sudo dmesg --level=err,warn → Only problems"
+
+create_cmd "env" \
+  "Environment variables - list them or run a command with changes." \
+  "Use '#!/usr/bin/env python3' in scripts to find the interpreter on any system!" \
+  "env → List all environment variables" \
+  "env | grep PATH → Find a variable" \
+  "env LANG=C sort file.txt → Run with a changed variable" \
+  "printenv HOME → Print one variable"
+
+create_cmd "export" \
+  "Export variables - pass them on to programs you start." \
+  "Put exports in ~/.bashrc to keep them in every new terminal!" \
+  "export EDITOR=vim → Set default editor" \
+  "export PATH=\"\$HOME/bin:\$PATH\" → Add a folder to PATH" \
+  "export -p → List exported variables" \
+  "unset VAR → Remove a variable"
+
+create_cmd "file" \
+  "Detect file type - looks at the content, not the extension." \
+  "Use it on downloads to check that a '.pdf' really is a PDF!" \
+  "file photo.jpg → Show file type" \
+  "file * → Types of all files here" \
+  "file -i doc.txt → Show MIME type"
+
+create_cmd "free" \
+  "Show memory usage - RAM and swap, used and available." \
+  "Look at the 'available' column, not 'free' - Linux uses spare RAM as cache!" \
+  "free -h → Human-readable memory usage" \
+  "free -m → Values in megabytes" \
+  "free -h -s 2 → Refresh every 2 seconds"
+
+create_cmd "gzip" \
+  "Compress files - small, fast and available everywhere." \
+  "Use 'gzip -k' to keep the original file!" \
+  "gzip file.txt → Compress (replaces file)" \
+  "gzip -k file.txt → Keep the original" \
+  "gunzip file.txt.gz → Decompress" \
+  "zcat file.gz → Print contents of a .gz file"
+
+create_cmd "hostname" \
+  "Show host name - the name of your machine on the network." \
+  "Use 'hostname -I' to quickly see your machine's IP addresses!" \
+  "hostname → Show host name" \
+  "hostname -I → Show all IP addresses" \
+  "hostnamectl → Detailed host info (systemd)" \
+  "sudo hostnamectl set-hostname web01 → Change host name"
+
+create_cmd "id" \
+  "User and group IDs - shows who you are and which groups you belong to." \
+  "Log out and in again after being added to a group, then check with 'id'!" \
+  "id → Your UID, GID and groups" \
+  "id alice → Another user's IDs" \
+  "id -u → Only your numeric user ID" \
+  "id -Gn → All your group names"
+
+create_cmd "ip" \
+  "Network configuration - shows interfaces, addresses and routes." \
+  "'ip -br a' gives a clean one-line-per-interface overview!" \
+  "ip a → Show all IP addresses" \
+  "ip -br a → Brief address overview" \
+  "ip r → Show routing table" \
+  "sudo ip link set eth0 up → Bring an interface up"
+
+create_cmd "journalctl" \
+  "System logs - read everything collected by systemd." \
+  "Use 'journalctl -u name -f' to follow one service's log live!" \
+  "journalctl -u nginx → Logs for one service" \
+  "journalctl -f → Follow new log lines" \
+  "journalctl --since '1 hour ago' → Time filter" \
+  "journalctl -b -p err → Errors from this boot"
+
+create_cmd "lsblk" \
+  "List block devices - disks, partitions and where they are mounted." \
+  "Run 'lsblk -f' before formatting to be sure you pick the right disk!" \
+  "lsblk → Disks and partitions" \
+  "lsblk -f → Show filesystems and UUIDs" \
+  "lsblk -o NAME,SIZE,MOUNTPOINT → Choose columns"
+
+create_cmd "lsof" \
+  "List open files - see which process uses a file, folder or port." \
+  "'sudo lsof -i :8080' finds what is blocking your port!" \
+  "sudo lsof -i :80 → What uses port 80" \
+  "sudo lsof -u alice → Files opened by a user" \
+  "lsof +D /var/log → Who uses files in a folder" \
+  "lsof -p 1234 → Files opened by a process"
+
+create_cmd "mount" \
+  "Attach filesystems - make a disk or image available in a folder." \
+  "Use 'findmnt' for a readable tree of everything that is mounted!" \
+  "mount → List mounted filesystems" \
+  "sudo mount /dev/sdb1 /mnt → Mount a partition" \
+  "sudo umount /mnt → Unmount" \
+  "sudo mount -o loop disk.iso /mnt → Mount an ISO image"
+
+create_cmd "nice" \
+  "CPU priority - run commands with lower (or higher) priority." \
+  "Prefix heavy jobs with 'nice -n 19' so your desktop stays responsive!" \
+  "nice -n 19 tar czf backup.tgz /home → Lowest priority" \
+  "sudo nice -n -5 cmd → Higher priority (needs root)" \
+  "renice 10 -p 1234 → Change a running process"
+
+create_cmd "nohup" \
+  "Ignore hangups - keep a command running after you log out." \
+  "For anything long-running, tmux or screen is usually nicer!" \
+  "nohup ./script.sh & → Run in background, immune to logout" \
+  "nohup cmd > out.log 2>&1 & → Choose the log file" \
+  "tail -f nohup.out → Watch default output"
+
+create_cmd "ping" \
+  "Test network reachability - sends packets and measures the round-trip time." \
+  "Use 'ping -c 4' so it stops by itself instead of running forever!" \
+  "ping google.com → Ping until Ctrl+C" \
+  "ping -c 4 1.1.1.1 → Send exactly 4 packets" \
+  "ping -i 0.5 example.com → Ping every half second" \
+  "ping -W 2 example.com → Wait max 2 seconds for reply"
+
+create_cmd "pkill" \
+  "Kill by name - stop processes without looking up the PID." \
+  "Run 'pgrep -a name' first to see what would be killed!" \
+  "pkill firefox → Stop processes by name" \
+  "pgrep -a node → Find matching processes first" \
+  "pkill -f 'python app.py' → Match the full command line" \
+  "pkill -9 hung-app → Force kill (last resort)"
+
+create_cmd "sha256sum" \
+  "Checksums - compute or verify SHA-256 hashes to check file integrity." \
+  "Always verify downloaded ISOs with 'sha256sum -c' before installing!" \
+  "sha256sum file.iso → Show checksum" \
+  "sha256sum -c SHA256SUMS → Verify against a list" \
+  "sha256sum *.tar.gz > sums.txt → Save checksums" \
+  "echo -n text | sha256sum → Hash a string"
+
+create_cmd "sleep" \
+  "Pause for a given time - useful in scripts and loops." \
+  "Combine with '&&' to run something later: 'sleep 600 && notify-send done'!" \
+  "sleep 5 → Wait 5 seconds" \
+  "sleep 2m → Wait 2 minutes" \
+  "sleep 0.5 → Wait half a second" \
+  "while true; do date; sleep 1; done → Simple clock loop"
+
+create_cmd "sort" \
+  "Sort lines of text - alphabetically, numerically or by column." \
+  "Combine 'sort | uniq -c | sort -rn' to rank the most common lines!" \
+  "sort names.txt → Sort alphabetically" \
+  "sort -r names.txt → Reverse order" \
+  "sort -n numbers.txt → Sort numerically" \
+  "sort -u list.txt → Sort and remove duplicates"
+
+create_cmd "ss" \
+  "Socket statistics - shows open ports and connections (modern netstat)." \
+  "'sudo ss -tulpn' shows which program listens on which port!" \
+  "sudo ss -tulpn → Listening TCP/UDP ports with programs" \
+  "ss -t → Active TCP connections" \
+  "ss -s → Summary statistics" \
+  "ss -lt 'sport = :22' → Who listens on port 22"
+
+create_cmd "stat" \
+  "Show detailed file info - size, permissions, owner and timestamps." \
+  "'stat -c %a file' prints permissions as a number like 644!" \
+  "stat file.txt → All file details" \
+  "stat -c %s file.txt → Size in bytes" \
+  "stat -c %a file.txt → Numeric permissions" \
+  "stat -c %y file.txt → Last modification time"
+
+create_cmd "systemctl" \
+  "Control systemd services - start, stop, enable and inspect them." \
+  "'systemctl --failed' instantly shows which services are broken!" \
+  "systemctl status nginx → Service status" \
+  "sudo systemctl restart nginx → Restart a service" \
+  "sudo systemctl enable --now nginx → Start now and on boot" \
+  "systemctl list-units --type=service → List services"
+
+create_cmd "tee" \
+  "Split output - shows output on screen and saves it to a file at the same time." \
+  "Use 'echo line | sudo tee -a /etc/file' to append to root-owned files!" \
+  "ls | tee files.txt → Show and save output" \
+  "make 2>&1 | tee build.log → Log a build while watching it" \
+  "echo hi | tee -a log.txt → Append instead of overwrite" \
+  "echo 'x' | sudo tee /etc/myapp.conf → Write a root-owned file"
+
+create_cmd "tmux" \
+  "Terminal multiplexer - multiple windows and sessions that survive disconnects." \
+  "Start every SSH session with 'tmux new -A -s main' - never lose work again!" \
+  "tmux new -s work → Named session" \
+  "tmux ls → List sessions" \
+  "tmux attach -t work → Re-attach to a session" \
+  "Ctrl+b d → Detach (keeps running)"
+
+create_cmd "tr" \
+  "Translate characters - replace, squeeze or delete characters in a stream." \
+  "Squeeze repeated spaces with tr -s before splitting columns with cut!" \
+  "echo hello | tr a-z A-Z → Convert to uppercase" \
+  "tr '[:upper:]' '[:lower:]' < in.txt → Convert to lowercase" \
+  "tr -s ' ' < file.txt → Squeeze repeated spaces" \
+  "echo 'a,b,c' | tr , ' ' → Commas to spaces"
+
+create_cmd "tree" \
+  "Show directories as a tree - see the structure of folders at a glance." \
+  "Use 'tree -L 2 -I node_modules' to keep big projects readable!" \
+  "tree → Show current folder as a tree" \
+  "tree -L 2 → Limit depth to 2 levels" \
+  "tree -I 'node_modules|.git' → Ignore matching folders"
+
+create_cmd "uname" \
+  "Print system information - kernel name, version and architecture." \
+  "'uname -r' tells you the kernel version when searching for drivers!" \
+  "uname -a → All system info" \
+  "uname -r → Kernel release" \
+  "uname -m → Machine architecture (x86_64, aarch64)"
+
+create_cmd "uniq" \
+  "Filter repeated lines - removes or counts adjacent duplicates." \
+  "uniq only sees neighbours - always 'sort' first!" \
+  "sort list.txt | uniq → Remove duplicate lines" \
+  "sort list.txt | uniq -c → Count occurrences" \
+  "sort list.txt | uniq -d → Show only duplicates" \
+  "sort list.txt | uniq -u → Lines that appear once"
+
+create_cmd "uptime" \
+  "System uptime - how long it has been running and the load average." \
+  "Load average above your CPU count ('nproc') means processes are waiting!" \
+  "uptime → Uptime, users and load" \
+  "uptime -p → Pretty format (up 3 days)" \
+  "uptime -s → Time the system booted"
+
+create_cmd "watch" \
+  "Repeat a command - reruns it and shows the output full-screen." \
+  "Add '-d' to highlight what changed between updates!" \
+  "watch df -h → Refresh disk usage every 2s" \
+  "watch -n 1 free -h → Refresh every second" \
+  "watch -d ls -l → Highlight changes"
+
+create_cmd "wc" \
+  "Word count - counts lines, words and bytes in files or input." \
+  "Pipe anything into 'wc -l' to count results, e.g. 'ls | wc -l'!" \
+  "wc file.txt → Lines, words and bytes" \
+  "wc -l file.txt → Count lines only" \
+  "wc -w essay.txt → Count words only"
+
+create_cmd "whoami" \
+  "Current user - prints the user name you are running as." \
+  "Handy in scripts to refuse running as root by mistake!" \
+  "whoami → Show your user name" \
+  "sudo whoami → Shows root" \
+  "who → Everyone logged in"
+
+create_cmd "xargs" \
+  "Build commands from input - turns lines of input into arguments." \
+  "Use 'find ... -print0 | xargs -0' so filenames with spaces work!" \
+  "find . -name '*.log' -print0 | xargs -0 rm → Delete found files" \
+  "find . -name '*.txt' -print0 | xargs -0 wc -l → Count lines in found files" \
+  "cat urls.txt | xargs -n1 curl -O → Download each URL" \
+  "echo a b c | xargs -n1 → One argument per line"
+
 echo ""
-echo "✅ Created 42 commands with actionable pro tips!"
+echo "✅ Created 83 commands with actionable pro tips!"
 echo "Now run: ./collect_en.sh"
