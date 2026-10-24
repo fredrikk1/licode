@@ -8,5 +8,5 @@ Text processing - extracts and manipulates columns of data.
 - `awk 'NR>1 {sum+=$3} END {print sum}' data.txt → Sum column 3`
 
 ## Pro tip
-Use '-F:' to change delimiter: 'awk -F: '{print $1}' /etc/passwd'
+Use '-F,' for comma-separated files and 'NR>1' to skip the header line!
 
