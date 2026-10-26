@@ -3,4 +3,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://licod.io/sitemap.xml
+Sitemap: https://www.licod.io/sitemap.xml
